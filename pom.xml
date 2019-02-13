@@ -2,11 +2,20 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+    <modelVersion>${javax.servlet-api.version}</modelVersion>
 
     <groupId>com.denis.test.server</groupId>
     <artifactId>com.denis.test.server</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <properties>
+        <spring-core.version>5.1.4.RELEASE</spring-core.version>
+        <spring-webmvc.version>${spring-core.version}</spring-webmvc.version>
+        <javax.servlet-api.version>4.0.0</javax.servlet-api.version>
+        <spring-data-jpa.version>2.1.2.RELEASE</spring-data-jpa.version>
+        <hibernate-entitymanager.version>5.0.2.Final</hibernate-entitymanager.version>
+        <postgresql.version>42.1.4</postgresql.version>
+        <commons-dbcp2.version>2.1.1</commons-dbcp2.version>
+    </properties>
 
     <packaging>war</packaging>
     <dependencies>
@@ -14,21 +23,51 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
-            <version>5.1.4.RELEASE</version>
+            <version>${spring-webmvc.version}</version>
         </dependency>
 
         <!-- SPRING WEB MVC -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
-            <version>5.1.4.RELEASE</version>
+            <version>${spring-webmvc.version}</version>
         </dependency>
 
+        <!-- SPRING DATA -->
+
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-jpa</artifactId>
+            <version>${spring-data-jpa.version}</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-dbcp2</artifactId>
+            <version>${commons-dbcp2.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${postgresql.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>${hibernate-entitymanager.version}</version>
+        </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
-            <version>4.0.0</version>
+            <version>${javax.servlet-api.version}</version>
             <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.transaction</groupId>
+            <artifactId>jta</artifactId>
+            <version>1.1</version>
         </dependency>
 
     </dependencies>
