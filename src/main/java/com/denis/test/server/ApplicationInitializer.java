@@ -1,6 +1,7 @@
 package com.denis.test.server;
 
 import com.denis.test.server.config.WebConfig;
+import com.denis.test.server.repository.FirstRepository;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
