@@ -23,25 +23,30 @@ import java.util.Properties;
 
 @Configuration
 @EnableJpaRepositories("com.denis.test.server.repository")
+//Поддержка транзакций (ролбэк)
 @EnableTransactionManagement
 @PropertySource("classpath:db.properties")
 @ComponentScan("com.denis.test.server")
 public class DatabaseConfig {
 
+    //Объект для доступа к property файлам
     @Resource
     private Environment env;
 
+    //Предоставляет возможость создание бинов и таблиц на основе entity
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory(){
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource());
         em.setPackagesToScan(env.getRequiredProperty("db.entity.package"));
+        //JPA адаптер
         em.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
         em.setJpaProperties(getHibernateProperties());
         return em;
     }
 
 
+    //Конфигурация JPA TRANSACTION
     @Bean
     public PlatformTransactionManager transactionManager(){
         JpaTransactionManager manager = new JpaTransactionManager();
@@ -50,9 +55,11 @@ public class DatabaseConfig {
     }
 
 
+
     private Properties getHibernateProperties() {
         try {
             Properties properties = new Properties();
+            //Подгрузка файла настроек
             InputStream is = getClass().getClassLoader().getResourceAsStream("hibernate.properties");
             properties.load(is);
             return properties;
@@ -62,18 +69,24 @@ public class DatabaseConfig {
     }
 
 
+
     @Bean
     public DataSource dataSource() {
         BasicDataSource ds = new BasicDataSource();
+        //Конфигурация dataSource, данные получаются с environment
         ds.setUrl(env.getRequiredProperty("db.url"));
         ds.setDriverClassName(env.getRequiredProperty("db.driver"));
         ds.setUsername(env.getRequiredProperty("db.username"));
         ds.setPassword(env.getRequiredProperty("db.password"));
 
 
+        //Connection pool
+        //Размер пула
         ds.setInitialSize(Integer.valueOf(env.getRequiredProperty("db.initialSize")));
+        //Диапазон
         ds.setMinIdle(Integer.valueOf(env.getRequiredProperty("db.minIdle")));
         ds.setMaxIdle(Integer.valueOf(env.getRequiredProperty("db.maxIdle")));
+        //Время жизни
         ds.setTimeBetweenEvictionRunsMillis(Long.valueOf(env.getRequiredProperty("db.timeBetweenEvictionRunsMillis")));
         ds.setMinEvictableIdleTimeMillis(Long.valueOf(env.getRequiredProperty("db.minEvictableIdleTimeMills")));
         ds.setTestOnBorrow(Boolean.valueOf(env.getRequiredProperty("db.testOnBorrow")));

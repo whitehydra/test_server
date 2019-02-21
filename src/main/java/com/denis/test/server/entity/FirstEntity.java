@@ -4,6 +4,8 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 
+
+//Сущность, отображение модели данных в базе данных
 @Entity
 @Table(name = "first_entity")
 public class FirstEntity {
@@ -19,32 +21,25 @@ public class FirstEntity {
     @Column(name = "info", nullable = false)
     private String info;
 
+    //Обязателен конструктор, геттеры и сеттеры
 
     public  FirstEntity(){
 
     }
 
-    public long getId() {
-        return id;
-    }
+
+
+    public long getId() { return id; }
 
     public void setId(long id) {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
-    }
+    public String getTitle() { return title; }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+    public void setTitle(String title) { this.title = title; }
 
-    public String getInfo() {
-        return info;
-    }
+    public String getInfo() { return info; }
 
-    public void setInfo(String info) {
-        this.info = info;
-    }
+    public void setInfo(String info) { this.info = info; }
 }

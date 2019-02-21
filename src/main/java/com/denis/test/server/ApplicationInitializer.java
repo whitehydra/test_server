@@ -14,13 +14,18 @@ import javax.servlet.ServletRegistration;
 public class ApplicationInitializer implements WebApplicationInitializer {
     private final static String DISPATCHER = "dispatcher";
 
+    //Запускается перед разворотом контекста
     public void onStartup(ServletContext servletContext) throws ServletException {
+        //Создание контекста
         AnnotationConfigWebApplicationContext ctx = new AnnotationConfigWebApplicationContext();
+        //Регистрация конфига
         ctx.register(WebConfig.class);
         servletContext.addListener(new ContextLoaderListener(ctx));
 
+
         ServletRegistration.Dynamic servlet = servletContext.addServlet(DISPATCHER, new DispatcherServlet(ctx));
         servlet.addMapping("/");
+        //Порядок запуска сервлета
         servlet.setLoadOnStartup(1);
     }
 }

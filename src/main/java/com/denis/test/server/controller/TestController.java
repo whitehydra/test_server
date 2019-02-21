@@ -19,15 +19,25 @@ public class TestController {
     private TestService service;
 
 
-    @RequestMapping(value = "/tests", method = RequestMethod.GET)
-    @ResponseBody
-    public List<FirstEntity> getAllTest(){
 
+
+
+    @RequestMapping(value = "/maintest", method = RequestMethod.GET)
+    @ResponseBody
+    public List<FirstEntity> getMainTest(){
         List<FirstEntity> list = new ArrayList<>();
         list.add(createEmptyEntity());
         return list;
+    }
 
-  //      return service.getAll();
+
+
+
+    //Получение списка объектов
+    @RequestMapping(value = "/tests", method = RequestMethod.GET)
+    @ResponseBody
+    public List<FirstEntity> getAllTest(){
+       return service.getAll();
     }
 
     @RequestMapping(value = "/tests/{id}", method = RequestMethod.GET)

@@ -17,6 +17,7 @@ import java.util.List;
 @ComponentScan("com.denis.test.server")
 public class WebConfig extends WebMvcConfigurerAdapter {
 
+    //Переопределение jackson конвертера
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters){
         MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();

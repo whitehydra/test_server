@@ -4,6 +4,8 @@ import com.denis.test.server.entity.FirstEntity;
 
 import java.util.List;
 
+//Слой сервисов для использования репозитория
+
 public interface TestService {
     List<FirstEntity> getAll();
     FirstEntity getById(long id);
