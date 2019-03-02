@@ -74,7 +74,7 @@ public class UserController {
 
     private UserEntity createEmptyUser() {
         UserEntity userEntity = new UserEntity();
-        userEntity.setId(1);
+        userEntity.setId_usr(1);
         userEntity.setUsername("EMPTY");
         userEntity.setPassword("EMPTY");
         userEntity.setLevel(0);
