@@ -1,18 +1,14 @@
 package com.denis.test.server.controller;
-
 import com.denis.test.server.entity.UserEntity;
 import com.denis.test.server.forms.AuthorizationForm;
 import com.denis.test.server.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 public class UserController {
-
-
     @Autowired
     private UserService service;
 
@@ -26,11 +22,7 @@ public class UserController {
         else  return false;
     }
 
-
-
-
     //****************
-
     @RequestMapping(value = "/test", method = RequestMethod.GET)
     @ResponseBody
     public List<UserEntity> getMainTest(){
@@ -38,9 +30,7 @@ public class UserController {
         list.add(createEmptyUser());
         return list;
     }
-
     //****************
-
 
     //Получение списка объектов
     @RequestMapping(value = "/users", method = RequestMethod.GET)
@@ -51,7 +41,7 @@ public class UserController {
 
     @RequestMapping(value = "/users/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public UserEntity getUser(@PathVariable("id") long userID){
+    public UserEntity getUser(@PathVariable("id") int userID){
         return service.getById(userID);
     }
 
@@ -63,14 +53,9 @@ public class UserController {
 
     @RequestMapping(value = "/users/{id}", method = RequestMethod.POST)
     @ResponseBody
-    public void deleteUser(@PathVariable long id){
+    public void deleteUser(@PathVariable int id){
         service.remove(id);
     }
-
-
-
-
-
 
     private UserEntity createEmptyUser() {
         UserEntity userEntity = new UserEntity();

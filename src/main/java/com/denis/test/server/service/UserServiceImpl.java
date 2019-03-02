@@ -1,11 +1,9 @@
 package com.denis.test.server.service;
-
 import com.denis.test.server.entity.UserEntity;
 import com.denis.test.server.forms.AuthorizationForm;
 import com.denis.test.server.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -15,13 +13,11 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository repository;
 
-
     @Override
     public boolean checkAuthorization(AuthorizationForm authorizationForm) {
         if(repository.findUsersByUsernameAndPassword(authorizationForm.getUsername(),
                 authorizationForm.getPassword())!=null)return true;
         else return false;
-
     }
 
     @Override
@@ -30,7 +26,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserEntity getById(long id) {
+    public UserEntity getById(int id) {
         Optional<UserEntity> userEntity = repository.findById(id);
         if (userEntity.isPresent()){
             return userEntity.get();
@@ -44,7 +40,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void remove(long id) {
+    public void remove(int id) {
         repository.deleteById(id);
     }
 }

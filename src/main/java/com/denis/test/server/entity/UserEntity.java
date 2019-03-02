@@ -8,7 +8,7 @@ public class UserEntity {
     @Id
     @GeneratedValue(generator = "increment")
     @GenericGenerator(name = "increment",strategy = "increment")
-    private long id_usr;
+    private int id_usr;
 
     @Column(name = "username", nullable = false, length = 30)
     private String username;
@@ -23,7 +23,7 @@ public class UserEntity {
 
     /*SETTERS*/
 
-    public void setId_usr(long id_usr) {
+    public void setId_usr(int id_usr) {
         this.id_usr = id_usr;
     }
     public void setUsername(String username) { this.username = username; }
