@@ -19,11 +19,11 @@ public class UserController {
 
     @RequestMapping(value = "/authorization", method = RequestMethod.POST)
     @ResponseBody
-    public String authorization(@RequestBody AuthorizationForm authorizationForm){
+    public Boolean authorization(@RequestBody AuthorizationForm authorizationForm){
         if (service.checkAuthorization(authorizationForm)){
-            return "YES";
+            return true;
         }
-        else  return "NO";
+        else  return false;
     }
 
 
