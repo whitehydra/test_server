@@ -13,11 +13,29 @@ public class UserEntity {
     @Column(name = "username", nullable = false, length = 30)
     private String username;
 
+    @Column(name = "name", nullable = false, length = 60)
+    private String name;
+
     @Column(name = "password", nullable = false, length = 30)
     private String password;
 
     @Column(name = "level")
-    private int level = 0;
+    private String level;
+
+    @Column(name = "faculty")
+    private String faculty;
+
+    @Column(name = "studyGroup")
+    private String studyGroup;
+
+    @Column(name = "phone")
+    private String phone;
+
+    @Column(name = "mail")
+    private String mail;
+
+    @Column(name = "info")
+    private String info;
 
     public UserEntity(){ }
 
@@ -27,13 +45,25 @@ public class UserEntity {
         this.id_usr = id_usr;
     }
     public void setUsername(String username) { this.username = username; }
+    public void setName(String name) {this.name = name; }
     public void setPassword(String password) { this.password = password; }
-    public void setLevel(int level) { this.level = level; }
+    public void setLevel(String level) { this.level = level; }
+    public void setFaculty(String faculty) {this.faculty = faculty; }
+    public void setStudyGroup(String studyGroup) {this.studyGroup = studyGroup; }
+    public void setPhone(String phone) { this.phone = phone; }
+    public void setMail(String mail) { this.mail = mail; }
+    public void setInfo(String info) { this.info = info; }
 
     /*GETTERS*/
 
-    public long getId_usr() { return id_usr; }
+    public int getId_usr() { return id_usr; }
     public String getUsername() { return username; }
+    public String getName() {return name; }
     public String getPassword() { return password; }
-    public int getLevel() { return level; }
+    public String getLevel() { return level; }
+    public String getFaculty() {return faculty; }
+    public String getStudyGroup() { return studyGroup; }
+    public String getPhone() { return phone; }
+    public String getMail() {return mail; }
+    public String getInfo() {return info; }
 }

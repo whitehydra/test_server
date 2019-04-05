@@ -6,7 +6,7 @@ import java.util.List;
 //Слой сервисов для использования репозитория
 
 public interface UserService {
-    boolean checkAuthorization(AuthorizationForm authorizationForm);
+    UserEntity checkAuthorization(AuthorizationForm authorizationForm);
     List<UserEntity> getAll();
     UserEntity getById(int id);
     UserEntity save(UserEntity firstEntity);

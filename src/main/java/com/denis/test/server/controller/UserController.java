@@ -15,11 +15,12 @@ public class UserController {
 
     @RequestMapping(value = "/authorization", method = RequestMethod.POST)
     @ResponseBody
-    public Boolean authorization(@RequestBody AuthorizationForm authorizationForm){
-        if (service.checkAuthorization(authorizationForm)){
-            return true;
-        }
-        else  return false;
+    public UserEntity authorization(@RequestBody AuthorizationForm authorizationForm){
+        return service.checkAuthorization(authorizationForm);
+//        if (service.checkAuthorization(authorizationForm)){
+//            return true;
+//        }
+//        else  return false;
     }
 
     //****************
@@ -62,7 +63,7 @@ public class UserController {
         userEntity.setId_usr(1);
         userEntity.setUsername("EMPTY");
         userEntity.setPassword("EMPTY");
-        userEntity.setLevel(0);
+        userEntity.setLevel("Student");
         return userEntity;
     }
 }

@@ -14,10 +14,13 @@ public class UserServiceImpl implements UserService {
     private UserRepository repository;
 
     @Override
-    public boolean checkAuthorization(AuthorizationForm authorizationForm) {
-        if(repository.findUsersByUsernameAndPassword(authorizationForm.getUsername(),
-                authorizationForm.getPassword())!=null)return true;
-        else return false;
+    public UserEntity checkAuthorization(AuthorizationForm authorizationForm) {
+        UserEntity userEntity = repository.findUsersByUsernameAndPassword(authorizationForm.getUsername(),
+                authorizationForm.getPassword());
+        return userEntity;
+
+//        if(userEntity!=null)return true;
+//        else return false;
     }
 
     @Override
