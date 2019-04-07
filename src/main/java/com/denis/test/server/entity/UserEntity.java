@@ -1,4 +1,6 @@
 package com.denis.test.server.entity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 
@@ -8,15 +10,18 @@ public class UserEntity {
     @Id
     @GeneratedValue(generator = "increment")
     @GenericGenerator(name = "increment",strategy = "increment")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private int id_usr;
 
     @Column(name = "username", nullable = false, length = 30)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String username;
 
     @Column(name = "name", nullable = false, length = 60)
     private String name;
 
     @Column(name = "password", nullable = false, length = 30)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     @Column(name = "level")
@@ -37,6 +42,10 @@ public class UserEntity {
     @Column(name = "info")
     private String info;
 
+    @JsonIgnore
+    @Column(name = "token")
+    private String token;
+
     public UserEntity(){ }
 
     /*SETTERS*/
@@ -53,7 +62,7 @@ public class UserEntity {
     public void setPhone(String phone) { this.phone = phone; }
     public void setMail(String mail) { this.mail = mail; }
     public void setInfo(String info) { this.info = info; }
-
+    public void setToken(String token) { this.token = token; }
     /*GETTERS*/
 
     public int getId_usr() { return id_usr; }
@@ -66,4 +75,5 @@ public class UserEntity {
     public String getPhone() { return phone; }
     public String getMail() {return mail; }
     public String getInfo() {return info; }
+    public String getToken() { return token; }
 }

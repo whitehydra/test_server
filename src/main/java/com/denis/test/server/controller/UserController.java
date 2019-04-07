@@ -1,8 +1,15 @@
 package com.denis.test.server.controller;
 import com.denis.test.server.entity.UserEntity;
 import com.denis.test.server.forms.AuthorizationForm;
+import com.denis.test.server.forms.TokenAndNameForm;
+import com.denis.test.server.service.GetTokenServiceImpl;
 import com.denis.test.server.service.UserService;
+import com.denis.test.server.validator.UserValidator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,16 +19,39 @@ public class UserController {
     @Autowired
     private UserService service;
 
-
-    @RequestMapping(value = "/authorization", method = RequestMethod.POST)
+    
+    @RequestMapping(value = "/token", method = RequestMethod.POST)
     @ResponseBody
-    public UserEntity authorization(@RequestBody AuthorizationForm authorizationForm){
-        return service.checkAuthorization(authorizationForm);
-//        if (service.checkAuthorization(authorizationForm)){
-//            return true;
-//        }
-//        else  return false;
+    public String getToken(@RequestBody UserEntity userEntity){
+        return service.getToken(userEntity);
     }
+
+
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @ResponseBody
+    public String login(@RequestBody AuthorizationForm authorizationForm){
+        if(service.checkAuthorization(authorizationForm)!=null)
+        {
+            GetTokenServiceImpl getTokenService = new GetTokenServiceImpl();
+            String token = getTokenService.getToken(authorizationForm.getUsername(),
+                    authorizationForm.getPassword(),service);
+            service.setToken(authorizationForm.getUsername(),token);
+            return token;
+        }
+        return "";
+    }
+
+    @RequestMapping(value = "/authentication", method = RequestMethod.POST)
+    @ResponseBody
+    public UserEntity authentication(@RequestBody TokenAndNameForm tokenAndNameForm){
+        UserEntity userEntity = service.findByUsername(tokenAndNameForm.getUsername());
+        if (userEntity.getToken().equals(tokenAndNameForm.getToken())){
+            return  userEntity;
+        }
+        return null;
+    }
+
+
 
     //****************
     @RequestMapping(value = "/test", method = RequestMethod.GET)

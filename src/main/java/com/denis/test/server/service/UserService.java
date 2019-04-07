@@ -10,5 +10,8 @@ public interface UserService {
     List<UserEntity> getAll();
     UserEntity getById(int id);
     UserEntity save(UserEntity firstEntity);
+    UserEntity findByUsername(String username);
+    String getToken(UserEntity userEntity);
+    void setToken(String username, String token);
     void remove(int id);
 }
