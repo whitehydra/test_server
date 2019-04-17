@@ -6,6 +6,7 @@ import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 
+import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
@@ -22,9 +23,14 @@ public class ApplicationInitializer implements WebApplicationInitializer {
         servletContext.addListener(new ContextLoaderListener(ctx));
 
 
+
         ServletRegistration.Dynamic servlet = servletContext.addServlet(DISPATCHER, new DispatcherServlet(ctx));
         servlet.addMapping("/");
         //Порядок запуска сервлета
+
+       // MultipartConfigElement multipartConfig = new MultipartConfigElement("/tmp");
+       // servlet.setMultipartConfig(multipartConfig);
+
         servlet.setLoadOnStartup(1);
     }
 }

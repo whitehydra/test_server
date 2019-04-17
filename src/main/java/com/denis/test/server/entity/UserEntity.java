@@ -20,7 +20,7 @@ public class UserEntity {
     @Column(name = "name", nullable = false, length = 60)
     private String name;
 
-    @Column(name = "password", nullable = false, length = 30)
+    @Column(name = "password", nullable = false, length = 128)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 

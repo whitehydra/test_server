@@ -1,6 +1,7 @@
 package com.denis.test.server.service;
 import com.denis.test.server.entity.UserEntity;
 import com.denis.test.server.forms.AuthorizationForm;
+import com.denis.test.server.other.Functions;
 import com.denis.test.server.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -47,8 +48,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserEntity save(UserEntity userEntity) {
 
-        //userEntity.setPassword(bCryptPasswordEncoder.encode(userEntity.getPassword()));
-        return repository.saveAndFlush(userEntity);
+        try {
+            userEntity.setPassword(Functions.generateHash(userEntity.getPassword()));
+            return repository.saveAndFlush(userEntity);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override

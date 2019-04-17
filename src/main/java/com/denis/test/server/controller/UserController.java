@@ -4,22 +4,66 @@ import com.denis.test.server.forms.AuthorizationForm;
 import com.denis.test.server.forms.TokenAndNameForm;
 import com.denis.test.server.service.GetTokenServiceImpl;
 import com.denis.test.server.service.UserService;
-import com.denis.test.server.validator.UserValidator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartException;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
+
 
 @RestController
 public class UserController {
     @Autowired
     private UserService service;
 
-    
+    @Value("@{upload.path}")
+    private String uploadPath1;
+
+    @Autowired
+    private HttpServletRequest request;
+
+
+
+    @RequestMapping(value = "/file", method = RequestMethod.POST)
+    public String addFile(@RequestParam("file") MultipartFile file) {
+
+        if (file!=null){
+
+            String uploadsPath= "C:\\SpringFiles\\";
+            File uploadDir = new File(uploadsPath);
+            if(!uploadDir.exists()){
+                uploadDir.mkdir();
+            }
+
+            String uuidFile = UUID.randomUUID().toString();
+            String resultFilename = uuidFile + "." + file.getOriginalFilename();
+            try {
+                file.transferTo(new File(uploadsPath + resultFilename));
+                return "File transfer complete";
+            } catch (IOException e) {
+                e.printStackTrace();
+                return "File transfer error";
+            }
+        }
+        return "File exist error";
+
+    }
+
+
+
+
+
     @RequestMapping(value = "/token", method = RequestMethod.POST)
     @ResponseBody
     public String getToken(@RequestBody UserEntity userEntity){
