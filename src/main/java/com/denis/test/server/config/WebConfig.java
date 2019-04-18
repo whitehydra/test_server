@@ -9,6 +9,7 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import java.util.Collections;
@@ -27,14 +28,4 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         converter.setSupportedMediaTypes(Collections.singletonList(MediaType.APPLICATION_JSON));
         converters.add(converter);
     }
-
-
-
-//    @Bean(name = "multipartResolver")
-//    public CommonsMultipartResolver getResolver(){
-//        CommonsMultipartResolver commonsMultipartResolver = new CommonsMultipartResolver();
-//      //  commonsMultipartResolver.setMaxUploadSize(20*1024*1024);
-//
-//        return commonsMultipartResolver;
-//    }
 }
