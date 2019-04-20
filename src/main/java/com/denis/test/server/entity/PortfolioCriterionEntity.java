@@ -18,6 +18,11 @@ public class PortfolioCriterionEntity {
 
     public PortfolioCriterionEntity(){}
 
+    public PortfolioCriterionEntity(String name_criterion, int sort_criterion){
+        this.name_criterion = name_criterion;
+        this.sort_criterion = sort_criterion;
+    }
+
     /*SETTERS*/
 
     public void setId_criterion(int id_criterion) { this.id_criterion = id_criterion; }

@@ -18,6 +18,11 @@ public class PortfolioTypeEntity {
 
     public PortfolioTypeEntity(){}
 
+    public PortfolioTypeEntity(String name_type, int sort_type){
+        this.name_type = name_type;
+        this.sort_type = sort_type;
+    }
+
     /*SETTERS*/
 
     public void setId_type(int id_type) { this.id_type = id_type; }

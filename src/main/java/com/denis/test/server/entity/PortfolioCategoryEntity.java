@@ -18,6 +18,12 @@ public class PortfolioCategoryEntity {
 
     public PortfolioCategoryEntity(){}
 
+    public PortfolioCategoryEntity(String name_category, int sort_category){
+        this.name_category = name_category;
+        this.sort_category = sort_category;
+    }
+
+
     /*SETTERS*/
 
     public void setId_category(int id_category) { this.id_category = id_category; }

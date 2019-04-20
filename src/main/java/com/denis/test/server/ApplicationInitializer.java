@@ -27,9 +27,6 @@ public class ApplicationInitializer implements WebApplicationInitializer {
         servlet.addMapping("/");
         //Порядок запуска сервлета
 
-       // MultipartConfigElement multipartConfig = new MultipartConfigElement("/tmp");
-       // servlet.setMultipartConfig(multipartConfig);
-
         servlet.setLoadOnStartup(1);
     }
 }

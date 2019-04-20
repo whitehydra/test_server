@@ -1,7 +1,5 @@
 package com.denis.test.server.controller;
-import com.denis.test.server.entity.PortfolioEntity;
-import com.denis.test.server.entity.PortfolioFileEntity;
-import com.denis.test.server.entity.UserEntity;
+import com.denis.test.server.entity.*;
 import com.denis.test.server.service.PortfolioService;
 import com.denis.test.server.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +38,7 @@ public class PortfolioController {
     @RequestMapping(value = "/portfolio/{id}", method = RequestMethod.GET)
     @ResponseBody
     public PortfolioEntity getPortfolio(@PathVariable("id") int portfolioID){
-        return portfolioService.getById(portfolioID); }
+        return portfolioService.getPortfolioById(portfolioID); }
 
 
     @RequestMapping(value = "/pf/{username}", method = RequestMethod.GET)
@@ -68,19 +66,25 @@ public class PortfolioController {
 
     @RequestMapping(value = "/portfolio/add", method = RequestMethod.POST)
     @ResponseBody
-    public PortfolioEntity addPortfolio(
+    public Integer addPortfolio(
             @RequestBody List<Map<String,Object>> allParams){
 
         if( userVerification(allParams)) {
+      //  if( true) {
             UserEntity author = userService.findByUsername(allParams.get(0).get("username").toString());
+            PortfolioCategoryEntity category = portfolioService.getCategoryById((int)allParams.get(1).get("id_category"));
+            PortfolioCriterionEntity criterion = portfolioService.getCriterionById((int)allParams.get(1).get("id_criterion"));
+            PortfolioTypeEntity type = portfolioService.getTypeById((int)allParams.get(1).get("id_type"));
+
+
             PortfolioEntity portfolioEntity = PortfolioEntity.CreateObjectFromMap(allParams.get(1));
             if(portfolioEntity!=null){
                 portfolioEntity.setAuthor(author);
-
-
-
-                return portfolioService.save(portfolioEntity);
-
+                portfolioEntity.setCategory(category);
+                portfolioEntity.setCriterion(criterion);
+                portfolioEntity.setType(type);
+                portfolioService.savePortfolio(portfolioEntity);
+                return portfolioEntity.getId_portfolio();
                // return null;
             }
         } return null;
@@ -92,7 +96,7 @@ public class PortfolioController {
     @RequestMapping(value = "/portfolio/{id}", method = RequestMethod.POST)
     @ResponseBody
     public void deletePortfolio(@PathVariable int id){
-        portfolioService.remove(id);
+        portfolioService.removePortfolio(id);
     }
 
 
@@ -114,6 +118,17 @@ public class PortfolioController {
         userEntity.setInfo("Пробная страница");
         userService.save(userEntity);
 
+        portfolioService.saveCategory(new PortfolioCategoryEntity("Первая",1));
+        portfolioService.saveCategory(new PortfolioCategoryEntity("Вторая",2));
+        portfolioService.saveCategory(new PortfolioCategoryEntity("Третья",1));
+
+        portfolioService.saveCriterion(new PortfolioCriterionEntity("Первый",1));
+        portfolioService.saveCriterion(new PortfolioCriterionEntity("Второй",2));
+        portfolioService.saveCriterion(new PortfolioCriterionEntity("Третий",1));
+
+        portfolioService.saveType(new PortfolioTypeEntity("Первый",1));
+        portfolioService.saveType(new PortfolioTypeEntity("Второй",2));
+        portfolioService.saveType(new PortfolioTypeEntity("Третий",1));
 
         return "Data initialized";
     }
