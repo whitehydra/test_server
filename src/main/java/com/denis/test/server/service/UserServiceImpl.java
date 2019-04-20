@@ -50,6 +50,7 @@ public class UserServiceImpl implements UserService {
 
         try {
             userEntity.setPassword(Functions.generateHash(userEntity.getPassword()));
+            userEntity.setAvatar("default.jpg");
             return repository.saveAndFlush(userEntity);
         } catch (Exception e) {
             e.printStackTrace();
@@ -75,6 +76,14 @@ public class UserServiceImpl implements UserService {
         userEntity.setToken(token);
         repository.save(userEntity);
     }
+
+    @Override
+    public void setAvatar(String username, String avatar){
+        UserEntity userEntity = repository.findByUsername(username);
+        userEntity.setAvatar(avatar);
+        repository.save(userEntity);
+    }
+
 
     @Override
     public void remove(int id) {

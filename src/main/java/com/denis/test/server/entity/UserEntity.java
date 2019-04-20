@@ -3,6 +3,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "tr_user")
@@ -46,6 +47,16 @@ public class UserEntity {
     @Column(name = "token")
     private String token;
 
+    @Column(name = "avatar")
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private String avatar;
+
+//    @OneToMany
+//    @JoinColumn(name = "id_portfolio")
+//    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+//    private Set<PortfolioEntity> portfolio;
+
+
     public UserEntity(){ }
 
     /*SETTERS*/
@@ -63,6 +74,10 @@ public class UserEntity {
     public void setMail(String mail) { this.mail = mail; }
     public void setInfo(String info) { this.info = info; }
     public void setToken(String token) { this.token = token; }
+    public void setAvatar(String avatar) { this.avatar = avatar; }
+
+
+
     /*GETTERS*/
 
     public int getId_usr() { return id_usr; }
@@ -76,4 +91,5 @@ public class UserEntity {
     public String getMail() {return mail; }
     public String getInfo() {return info; }
     public String getToken() { return token; }
+    public String getAvatar() { return avatar; }
 }

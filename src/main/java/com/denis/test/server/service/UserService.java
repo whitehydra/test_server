@@ -13,5 +13,6 @@ public interface UserService {
     UserEntity findByUsername(String username);
     String getToken(UserEntity userEntity);
     void setToken(String username, String token);
+    void setAvatar(String username, String avatar);
     void remove(int id);
 }

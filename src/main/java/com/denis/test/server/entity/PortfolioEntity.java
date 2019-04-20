@@ -1,6 +1,12 @@
 package com.denis.test.server.entity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.ManyToAny;
+
 import javax.persistence.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @Entity
 @Table(name = "tr_portfolio")
@@ -20,18 +26,52 @@ public class PortfolioEntity {
     private String date_publication;
 
     @Column(name = "id_category")
-    private int id_category;
+    private String id_category;
 
     @Column(name = "id_criterion")
-    private int id_criterion;
+    private String id_criterion;
 
     @Column(name = "id_type")
-    private int id_type;
+    private String id_type;
 
-    @Column(name = "id_usr")
-    private int id_usr;
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_usr")
+    private UserEntity author;
+
+
+    @JsonIgnore
+    @OneToMany(fetch =  FetchType.EAGER)
+    @JoinColumn(name = "id_file")
+    private Set<PortfolioFileEntity> files;
+
+
 
     public PortfolioEntity(){}
+
+    public PortfolioEntity(String name, String date_event, String date_publication,
+                           String id_category, String id_criterion, String id_type) {
+        this.name = name;
+        this.date_event = date_event;
+        this.date_publication = date_publication;
+        this.id_category = id_category;
+        this.id_criterion = id_criterion;
+        this.id_type = id_type;
+    }
+
+
+    public static PortfolioEntity CreateObjectFromMap (Map<String, Object> qwe){
+        if(qwe.get("name")!=null&&qwe.get("date_event")!=null&&qwe.get("date_publication")!=null&&
+                qwe.get("id_category")!=null&&qwe.get("id_criterion")!=null&&qwe.get("id_type")!=null){
+
+            return new PortfolioEntity(qwe.get("name").toString(),qwe.get("date_event").toString(),
+                    qwe.get("date_publication").toString(),qwe.get("id_category").toString(),
+                    qwe.get("id_criterion").toString(),qwe.get("id_type").toString());
+        }
+        return null;
+    }
+
+
 
     /*SETTERS*/
 
@@ -39,19 +79,20 @@ public class PortfolioEntity {
     public void setName(String name) { this.name = name; }
     public void setDate_event(String date_event) { this.date_event = date_event; }
     public void setDate_publication(String date_publication) { this.date_publication = date_publication; }
-    public void setId_category(int id_category) { this.id_category = id_category; }
-    public void setId_criterion(int id_criterion) { this.id_criterion = id_criterion; }
-    public void setId_type(int id_type) { this.id_type = id_type; }
-    public void setId_usr(int id_usr) { this.id_usr = id_usr; }
-
+    public void setId_category(String id_category) { this.id_category = id_category; }
+    public void setId_criterion(String id_criterion) { this.id_criterion = id_criterion; }
+    public void setId_type(String id_type) { this.id_type = id_type; }
+    public void setAuthor(UserEntity author) { this.author = author; }
+    public void setFiles(Set<PortfolioFileEntity> files) { this.files = files; }
     /*GETTERS*/
 
     public int getId_portfolio() { return id_portfolio; }
     public String getName() { return name; }
     public String getDate_event() { return date_event; }
     public String getDate_publication() { return date_publication; }
-    public int getId_category() { return id_category; }
-    public int getId_criterion() { return id_criterion; }
-    public int getId_type() { return id_type; }
-    public int getId_usr() { return id_usr; }
+    public String getId_category() { return id_category; }
+    public String getId_criterion() { return id_criterion; }
+    public String getId_type() { return id_type; }
+    public UserEntity getAuthor() { return author; }
+    public Set<PortfolioFileEntity> getFiles() { return files; }
 }

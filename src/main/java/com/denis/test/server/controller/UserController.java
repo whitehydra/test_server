@@ -46,10 +46,11 @@ public class UserController {
 
 
 
-    @RequestMapping(value = "/avatars/{imageName:.+}", method = RequestMethod.GET)
+    @RequestMapping(value = "/avatars/{username:.+}", method = RequestMethod.GET)
     public void getAvatar(HttpServletResponse response,
-                                    @PathVariable("imageName") String imageName) throws IOException {
-        File file = new File(Constants.URL.UPLOADS + imageName);
+                                    @PathVariable("username") String username) throws IOException {
+        UserEntity userEntity = service.findByUsername(username);
+        File file = new File(Constants.URL.UPLOADS + userEntity.getAvatar());
         InputStream in = new FileInputStream(file);
         response.setContentType(MediaType.IMAGE_JPEG_VALUE);
         IOUtils.copy(in, response.getOutputStream());
@@ -57,23 +58,31 @@ public class UserController {
 
 
     @RequestMapping(value = "/file", method = RequestMethod.POST)
-    public String addFile(@RequestParam String text, @RequestParam("file") MultipartFile file) {
+    public String fileUpload(@RequestParam String username,
+                          @RequestParam String token, @RequestParam("file") MultipartFile file) {
 
         if (file!=null){
+            UserEntity userEntity = service.findByUsername(username);
+            if (userEntity.getToken().equals(token)){
+                File uploadDir = new File(Constants.URL.UPLOADS);
+                if(!uploadDir.exists()){
+                    uploadDir.mkdir();
+                }
 
-            File uploadDir = new File(Constants.URL.UPLOADS);
-            if(!uploadDir.exists()){
-                uploadDir.mkdir();
-            }
+                String uuidFile = username + "_" + UUID.randomUUID().toString();
+                String resultFilename = uuidFile + "." + file.getOriginalFilename();
+                try {
+                    file.transferTo(new File(Constants.URL.UPLOADS + resultFilename));
 
-            String uuidFile = UUID.randomUUID().toString();
-            String resultFilename = uuidFile + "." + file.getOriginalFilename();
-            try {
-                file.transferTo(new File(Constants.URL.UPLOADS + resultFilename));
-                return "Done " + resultFilename;
-            } catch (IOException e) {
-                e.printStackTrace();
-                return "File transfer error";
+                 //   File fileToDelete = new File(Constants.URL.UPLOADS + userEntity.getAvatar());
+                  //  fileToDelete.delete();
+
+                    service.setAvatar(username,resultFilename);
+                    return "Done " + resultFilename;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return "File transfer error";
+                }
             }
         }
         return "File exist error";
@@ -81,14 +90,6 @@ public class UserController {
     }
 
 
-
-
-
-    @RequestMapping(value = "/token", method = RequestMethod.POST)
-    @ResponseBody
-    public String getToken(@RequestBody UserEntity userEntity){
-        return service.getToken(userEntity);
-    }
 
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -117,15 +118,7 @@ public class UserController {
 
 
 
-    //****************
-    @RequestMapping(value = "/test", method = RequestMethod.GET)
-    @ResponseBody
-    public List<UserEntity> getMainTest(){
-        List<UserEntity> list = new ArrayList<>();
-        list.add(createEmptyUser());
-        return list;
-    }
-    //****************
+
 
     //Получение списка объектов
     @RequestMapping(value = "/users", method = RequestMethod.GET)
@@ -152,12 +145,4 @@ public class UserController {
         service.remove(id);
     }
 
-    private UserEntity createEmptyUser() {
-        UserEntity userEntity = new UserEntity();
-        userEntity.setId_usr(1);
-        userEntity.setUsername("EMPTY");
-        userEntity.setPassword("EMPTY");
-        userEntity.setLevel("Student");
-        return userEntity;
-    }
 }

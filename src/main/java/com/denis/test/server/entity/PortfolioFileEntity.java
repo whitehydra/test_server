@@ -1,6 +1,11 @@
 package com.denis.test.server.entity;
 import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @Entity
 @Table(name = "tr_portfolio_file")
@@ -26,6 +31,26 @@ public class PortfolioFileEntity {
     private int id_massage;
 
     public PortfolioFileEntity(){}
+
+    public PortfolioFileEntity(String file_name, String file_src, String file_type, int id_portfolio){
+        this.file_name = file_name;
+        this.file_src = file_src;
+        this.file_type = file_type;
+        this.id_portfolio = id_portfolio;
+    }
+
+    public static PortfolioFileEntity CreateObjectFromMap (Map<String, Object> qwe){
+        if(qwe.get("file_name")!=null&&qwe.get("file_src")!=null&&qwe.get("file_type")!=null&&qwe.get("id_portfolio")!=null){
+
+            return new PortfolioFileEntity(qwe.get("file_name").toString(),qwe.get("file_src").toString(),
+                    qwe.get("file_type").toString(),(int)qwe.get("id_portfolio"));
+        }
+        return null;
+    }
+
+
+
+
 
     /*SETTERS*/
 
