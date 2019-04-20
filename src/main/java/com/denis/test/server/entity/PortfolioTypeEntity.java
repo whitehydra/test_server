@@ -6,9 +6,10 @@ import javax.persistence.*;
 @Table(name = "tr_portfolio_type")
 public class PortfolioTypeEntity {
     @Id
+    @Column(name = "typeID")
     @GeneratedValue(generator = "increment")
     @GenericGenerator(name = "increment",strategy = "increment")
-    private int id_type;
+    private int typeID;
 
     @Column(name = "name_type", length = 128)
     private String name_type;
@@ -25,13 +26,13 @@ public class PortfolioTypeEntity {
 
     /*SETTERS*/
 
-    public void setId_type(int id_type) { this.id_type = id_type; }
+    public void setTypeID(int typeID) { this.typeID = typeID; }
     public void setName_type(String name_type) { this.name_type = name_type; }
     public void setSort_type(int sort_type) { this.sort_type = sort_type; }
 
     /*GETTERS*/
 
-    public int getId_type() { return id_type; }
+    public int getTypeID() { return typeID; }
     public String getName_type() { return name_type; }
     public int getSort_type() { return sort_type; }
 }

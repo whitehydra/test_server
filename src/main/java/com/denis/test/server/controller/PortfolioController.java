@@ -49,6 +49,21 @@ public class PortfolioController {
 
 
 
+    @RequestMapping(value = "/categories", method = RequestMethod.GET)
+    @ResponseBody
+    public Set<PortfolioCategoryEntity> getCategory(){
+        return portfolioService.getCategoriesList();}
+
+    @RequestMapping(value = "/criteria/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public Set<PortfolioCriterionEntity> getCriteions(@PathVariable("id") int id){
+        return portfolioService.getCriteriaListByCategoryId(id);}
+
+    @RequestMapping(value = "/types/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public Set<PortfolioTypeEntity> getTypes(@PathVariable("id") int id){
+        return portfolioService.getTypesListByCategoryId(id);}
+
 
 
 
@@ -118,17 +133,36 @@ public class PortfolioController {
         userEntity.setInfo("Пробная страница");
         userService.save(userEntity);
 
-        portfolioService.saveCategory(new PortfolioCategoryEntity("Первая",1));
-        portfolioService.saveCategory(new PortfolioCategoryEntity("Вторая",2));
-        portfolioService.saveCategory(new PortfolioCategoryEntity("Третья",1));
+        PortfolioCategoryEntity ca1, ca2, ca3;
+        PortfolioCriterionEntity cr1, cr2, cr3;
+        PortfolioTypeEntity tp1, tp2, tp3;
 
-        portfolioService.saveCriterion(new PortfolioCriterionEntity("Первый",1));
-        portfolioService.saveCriterion(new PortfolioCriterionEntity("Второй",2));
-        portfolioService.saveCriterion(new PortfolioCriterionEntity("Третий",1));
+        ca1 = new PortfolioCategoryEntity("Первая категория",1);
+        ca2 = new PortfolioCategoryEntity("Вторая категория",2);
+        ca3 = new PortfolioCategoryEntity("Третья категория",1);
 
-        portfolioService.saveType(new PortfolioTypeEntity("Первый",1));
-        portfolioService.saveType(new PortfolioTypeEntity("Второй",2));
-        portfolioService.saveType(new PortfolioTypeEntity("Третий",1));
+        cr1 = new PortfolioCriterionEntity("Первый критерий",1);
+        cr2 = new PortfolioCriterionEntity("Второй критерий",2);
+        cr3 = new PortfolioCriterionEntity("Третий критерий",1);
+
+        tp1 = new PortfolioTypeEntity("Первый тип",1);
+        tp2 = new PortfolioTypeEntity("Второй тип",2);
+        tp3 = new PortfolioTypeEntity("Третий тип",1);
+
+
+        portfolioService.saveCategories(Arrays.asList(ca1,ca2,ca3));
+        portfolioService.saveCriteria(Arrays.asList(cr1,cr2,cr3));
+        portfolioService.saveTypes(Arrays.asList(tp1,tp2,tp3));
+
+
+        portfolioService.addCriteria(ca1,new HashSet<>(Arrays.asList(cr1,cr2)));
+        portfolioService.addCriteria(ca2,new HashSet<>(Arrays.asList(cr3)));
+        portfolioService.addCriteria(ca3,new HashSet<>(Arrays.asList(cr1,cr3)));
+
+        portfolioService.addTypes(ca1, new HashSet<>(Arrays.asList(tp1,tp2)));
+        portfolioService.addTypes(ca2, new HashSet<>(Arrays.asList(tp2)));
+        portfolioService.addTypes(ca3, new HashSet<>(Arrays.asList(tp1,tp3)));
+
 
         return "Data initialized";
     }

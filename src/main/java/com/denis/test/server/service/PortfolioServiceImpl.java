@@ -4,8 +4,10 @@ import com.denis.test.server.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class PortfolioServiceImpl implements PortfolioService {
@@ -81,12 +83,26 @@ public class PortfolioServiceImpl implements PortfolioService {
         }
     }
     @Override
+    public void saveCategories(List<PortfolioCategoryEntity> categoryEntity){
+        for(PortfolioCategoryEntity category:categoryEntity){
+            saveCategory(category);
+        }
+    }
+
+
+    @Override
     public PortfolioCriterionEntity saveCriterion(PortfolioCriterionEntity criterionEntity){
         try {
             return criterionRepository.saveAndFlush(criterionEntity);
         }
         catch (Exception e){
             return null;
+        }
+    }
+    @Override
+    public void saveCriteria(List<PortfolioCriterionEntity> criterionEntity){
+        for(PortfolioCriterionEntity criterion:criterionEntity){
+            saveCriterion(criterion);
         }
     }
     @Override
@@ -98,8 +114,28 @@ public class PortfolioServiceImpl implements PortfolioService {
             return null;
         }
     }
+    @Override
+    public void saveTypes(List<PortfolioTypeEntity> typeEntity){
+        for(PortfolioTypeEntity type:typeEntity){
+            saveType(type);
+        }
+    }
 
     //********************************************************************************
+
+    @Override
+    public PortfolioCategoryEntity addCriteria(PortfolioCategoryEntity category, Set<PortfolioCriterionEntity> criteria){
+        category.setCriteria(criteria);
+        return categoryRepository.saveAndFlush(category);
+    }
+    @Override
+    public PortfolioCategoryEntity addTypes(PortfolioCategoryEntity category, Set<PortfolioTypeEntity> types){
+        category.setTypes(types);
+        return categoryRepository.saveAndFlush(category);
+    }
+
+
+
 
 
 
@@ -112,6 +148,28 @@ public class PortfolioServiceImpl implements PortfolioService {
         fileRepository.saveAndFlush(file);
         return portfolioRepository.saveAndFlush(portfolio);
     }
+
+
+    @Override
+    public Set<PortfolioCategoryEntity> getCategoriesList(){
+        return new HashSet<>(categoryRepository.findAll());
+    }
+
+    @Override
+    public Set<PortfolioCriterionEntity> getCriteriaListByCategoryId(int id){
+        PortfolioCategoryEntity category = getCategoryById(id);
+        if(category!=null) return getCategoryById(id).getCriteria();
+        return null;
+    }
+
+
+    @Override
+    public Set<PortfolioTypeEntity> getTypesListByCategoryId(int id){
+        PortfolioCategoryEntity category = getCategoryById(id);
+        if(category!=null) return getCategoryById(id).getTypes();
+        return null;
+    }
+
 
 
     @Override
