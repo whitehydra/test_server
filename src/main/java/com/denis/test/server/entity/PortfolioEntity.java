@@ -1,8 +1,11 @@
 package com.denis.test.server.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -17,10 +20,10 @@ public class PortfolioEntity {
     @Column(name = "name", length = 1024)
     private String name;
 
-    @Column(name = "date_event", length = 10)
+    @Column(name = "date_event", length = 12)
     private String date_event;
 
-    @Column(name = "date_publication", length = 10)
+    @Column(name = "date_publication", length = 12)
     private String date_publication;
 
 
@@ -48,6 +51,11 @@ public class PortfolioEntity {
     @JsonIgnore
     @OneToMany(fetch =  FetchType.EAGER)
     @JoinColumn(name = "id_file")
+    @JoinTable(
+            name = "portfolio_file",
+            joinColumns = {@JoinColumn(name = "id_portfolio")},
+            inverseJoinColumns = {@JoinColumn(name = "id_file")}
+    )
     private Set<PortfolioFileEntity> files;
 
 

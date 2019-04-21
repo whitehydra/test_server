@@ -10,7 +10,7 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
-import java.util.Random;
+import java.util.*;
 
 public class Functions {
     public static String generateHash(String input) throws Exception{
@@ -45,4 +45,13 @@ public class Functions {
         }
         return baseEnvLinkURL;
     }
+
+
+    public static <T> List<T> removeDublicates(List<T> list){
+        Set<T> set = new LinkedHashSet<>(list);
+        list.clear();
+        list.addAll(set);
+        return list;
+    }
+
 }

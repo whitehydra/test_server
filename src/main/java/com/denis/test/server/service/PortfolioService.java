@@ -21,13 +21,13 @@ public interface PortfolioService {
 
 
 
-    PortfolioCategoryEntity addCriteria(PortfolioCategoryEntity category, Set<PortfolioCriterionEntity> criteria);
-    PortfolioCategoryEntity addTypes(PortfolioCategoryEntity category, Set<PortfolioTypeEntity> types);
+    PortfolioCategoryEntity addCriteria(PortfolioCategoryEntity category, List<PortfolioCriterionEntity> criteria);
+    PortfolioCategoryEntity addTypes(PortfolioCategoryEntity category, List<PortfolioTypeEntity> types);
 
 
-    Set<PortfolioCategoryEntity> getCategoriesList();
-    Set<PortfolioCriterionEntity> getCriteriaListByCategoryId(int id);
-    Set<PortfolioTypeEntity> getTypesListByCategoryId(int id);
+    List<PortfolioCategoryEntity> getCategoriesList();
+    List<PortfolioCriterionEntity> getCriteriaListByCategoryId(int id);
+    List<PortfolioTypeEntity> getTypesListByCategoryId(int id);
 
     PortfolioEntity addFileToPortfolio(PortfolioFileEntity file);
     List<PortfolioEntity> getListByUsername(String username);

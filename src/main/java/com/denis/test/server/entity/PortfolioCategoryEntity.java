@@ -2,6 +2,7 @@ package com.denis.test.server.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -26,7 +27,7 @@ public class PortfolioCategoryEntity {
             joinColumns = {@JoinColumn(name = "id_category")},
             inverseJoinColumns = {@JoinColumn(name = "id_criterion")}
     )
-    private Set<PortfolioCriterionEntity> criteria;
+    private List<PortfolioCriterionEntity> criteria;
 
 
     @JsonIgnore
@@ -36,7 +37,7 @@ public class PortfolioCategoryEntity {
             joinColumns = {@JoinColumn(name = "id_category")},
             inverseJoinColumns = {@JoinColumn(name = "id_type")}
     )
-    private Set<PortfolioTypeEntity> types;
+    private List<PortfolioTypeEntity> types;
 
 
 
@@ -54,8 +55,8 @@ public class PortfolioCategoryEntity {
     public void setCategoryID(int categoryID) { this.categoryID = categoryID; }
     public void setName_category(String name_category) { this.name_category = name_category; }
     public void setSort_category(int sort_category) { this.sort_category = sort_category; }
-    public void setCriteria(Set<PortfolioCriterionEntity> criteria) { this.criteria = criteria; }
-    public void setTypes(Set<PortfolioTypeEntity> types) { this.types = types; }
+    public void setCriteria(List<PortfolioCriterionEntity> criteria) { this.criteria = criteria; }
+    public void setTypes(List<PortfolioTypeEntity> types) { this.types = types; }
 
 
     /*GETTERS*/
@@ -63,6 +64,6 @@ public class PortfolioCategoryEntity {
     public int getCategoryID() { return categoryID; }
     public String getName_category() { return name_category; }
     public int getSort_category() { return sort_category; }
-    public Set<PortfolioCriterionEntity> getCriteria() { return criteria; }
-    public Set<PortfolioTypeEntity> getTypes() { return types; }
+    public List<PortfolioCriterionEntity> getCriteria() { return criteria; }
+    public List<PortfolioTypeEntity> getTypes() { return types; }
 }

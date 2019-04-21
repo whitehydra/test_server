@@ -124,12 +124,12 @@ public class PortfolioServiceImpl implements PortfolioService {
     //********************************************************************************
 
     @Override
-    public PortfolioCategoryEntity addCriteria(PortfolioCategoryEntity category, Set<PortfolioCriterionEntity> criteria){
+    public PortfolioCategoryEntity addCriteria(PortfolioCategoryEntity category,List<PortfolioCriterionEntity> criteria){
         category.setCriteria(criteria);
         return categoryRepository.saveAndFlush(category);
     }
     @Override
-    public PortfolioCategoryEntity addTypes(PortfolioCategoryEntity category, Set<PortfolioTypeEntity> types){
+    public PortfolioCategoryEntity addTypes(PortfolioCategoryEntity category, List<PortfolioTypeEntity> types){
         category.setTypes(types);
         return categoryRepository.saveAndFlush(category);
     }
@@ -145,18 +145,25 @@ public class PortfolioServiceImpl implements PortfolioService {
 
         PortfolioEntity portfolio = getPortfolioById(file.getId_portfolio());
         portfolio.getFiles().add(file);
-        fileRepository.saveAndFlush(file);
+
+        try {
+            fileRepository.save(file);
+        }
+        catch (Exception e){
+            String qwe = e.getMessage();
+        }
+
         return portfolioRepository.saveAndFlush(portfolio);
     }
 
 
     @Override
-    public Set<PortfolioCategoryEntity> getCategoriesList(){
-        return new HashSet<>(categoryRepository.findAll());
+    public List<PortfolioCategoryEntity> getCategoriesList(){
+        return categoryRepository.findAll();
     }
 
     @Override
-    public Set<PortfolioCriterionEntity> getCriteriaListByCategoryId(int id){
+    public List<PortfolioCriterionEntity> getCriteriaListByCategoryId(int id){
         PortfolioCategoryEntity category = getCategoryById(id);
         if(category!=null) return getCategoryById(id).getCriteria();
         return null;
@@ -164,7 +171,7 @@ public class PortfolioServiceImpl implements PortfolioService {
 
 
     @Override
-    public Set<PortfolioTypeEntity> getTypesListByCategoryId(int id){
+    public List<PortfolioTypeEntity> getTypesListByCategoryId(int id){
         PortfolioCategoryEntity category = getCategoryById(id);
         if(category!=null) return getCategoryById(id).getTypes();
         return null;

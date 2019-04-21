@@ -1,10 +1,15 @@
 package com.denis.test.server.controller;
 import com.denis.test.server.entity.*;
+import com.denis.test.server.other.Constants;
+import com.denis.test.server.other.Functions;
 import com.denis.test.server.service.PortfolioService;
 import com.denis.test.server.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 @RestController
@@ -19,8 +24,12 @@ public class PortfolioController {
         if (allParams.isEmpty())return false;
         String username = allParams.get(0).get("username").toString();
         String token = allParams.get(0).get("token").toString();
-        if(username == null || token == null) return false;
 
+        return userVerification(username, token);
+    }
+
+    private boolean userVerification(String username, String token){
+        if(username == null || token == null) return false;
         UserEntity userEntity = userService.findByUsername(username);
         return userEntity.getToken().equals(token);
     }
@@ -51,18 +60,18 @@ public class PortfolioController {
 
     @RequestMapping(value = "/categories", method = RequestMethod.GET)
     @ResponseBody
-    public Set<PortfolioCategoryEntity> getCategory(){
-        return portfolioService.getCategoriesList();}
+    public List<PortfolioCategoryEntity> getCategories(){
+        return Functions.removeDublicates(portfolioService.getCategoriesList());}
 
     @RequestMapping(value = "/criteria/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public Set<PortfolioCriterionEntity> getCriteions(@PathVariable("id") int id){
-        return portfolioService.getCriteriaListByCategoryId(id);}
+    public List<PortfolioCriterionEntity> getCriteions(@PathVariable("id") int id){
+        return Functions.removeDublicates(portfolioService.getCriteriaListByCategoryId(id));}
 
     @RequestMapping(value = "/types/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public Set<PortfolioTypeEntity> getTypes(@PathVariable("id") int id){
-        return portfolioService.getTypesListByCategoryId(id);}
+    public List<PortfolioTypeEntity> getTypes(@PathVariable("id") int id){
+        return Functions.removeDublicates(portfolioService.getTypesListByCategoryId(id));}
 
 
 
@@ -70,13 +79,41 @@ public class PortfolioController {
     @RequestMapping(value = "/portfolio/files", method = RequestMethod.POST)
     @ResponseBody
     public String getFiles(@RequestBody List<Map<String,Object>> allParams){
-        if(userVerification(allParams)){
+        if(true){
             PortfolioFileEntity file = PortfolioFileEntity.CreateObjectFromMap(allParams.get(1));
+
+            String resultSrc =  UUID.randomUUID().toString() + "_" + file.getFile_name();
+            file.setFile_src(resultSrc);
             portfolioService.addFileToPortfolio(file);
-            return "Done";
+            return resultSrc;
         }
-        return "Error";
+        return null;
     }
+
+    @RequestMapping(value = "/portfolio/upload", method = RequestMethod.POST)
+    public String fileUpload(@RequestParam String username,
+                             @RequestParam String token, @RequestParam("file") MultipartFile file) {
+        if (file!=null){
+            if(userVerification(username,token)){
+                File uploadDir = new File(Constants.URL.UPLOADS_DOCS);
+                if(!uploadDir.exists()){
+                    uploadDir.mkdir();
+                }
+                try {
+                    file.transferTo(new File(Constants.URL.UPLOADS_DOCS + file.getOriginalFilename()));
+                    return "Файл " + file.getOriginalFilename() + " успешно загружен";
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return "Ошибка загрузки";
+                }
+            }
+        }
+        return "Ошибка загрузки";
+    }
+
+
+
+
 
 
     @RequestMapping(value = "/portfolio/add", method = RequestMethod.POST)
@@ -155,13 +192,13 @@ public class PortfolioController {
         portfolioService.saveTypes(Arrays.asList(tp1,tp2,tp3));
 
 
-        portfolioService.addCriteria(ca1,new HashSet<>(Arrays.asList(cr1,cr2)));
-        portfolioService.addCriteria(ca2,new HashSet<>(Arrays.asList(cr3)));
-        portfolioService.addCriteria(ca3,new HashSet<>(Arrays.asList(cr1,cr3)));
+        portfolioService.addCriteria(ca1,Arrays.asList(cr1,cr2));
+        portfolioService.addCriteria(ca2,Arrays.asList(cr3));
+        portfolioService.addCriteria(ca3,Arrays.asList(cr1,cr3));
 
-        portfolioService.addTypes(ca1, new HashSet<>(Arrays.asList(tp1,tp2)));
-        portfolioService.addTypes(ca2, new HashSet<>(Arrays.asList(tp2)));
-        portfolioService.addTypes(ca3, new HashSet<>(Arrays.asList(tp1,tp3)));
+        portfolioService.addTypes(ca1, Arrays.asList(tp1,tp2));
+        portfolioService.addTypes(ca2, Arrays.asList(tp2));
+        portfolioService.addTypes(ca3, Arrays.asList(tp1,tp3));
 
 
         return "Data initialized";
