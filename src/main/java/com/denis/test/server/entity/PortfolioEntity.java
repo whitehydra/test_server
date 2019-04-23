@@ -49,7 +49,10 @@ public class PortfolioEntity {
 
 
     @JsonIgnore
-    @OneToMany(fetch =  FetchType.EAGER)
+    @ManyToMany(fetch =  FetchType.EAGER, cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+    })
     @JoinColumn(name = "id_file")
     @JoinTable(
             name = "portfolio_file",

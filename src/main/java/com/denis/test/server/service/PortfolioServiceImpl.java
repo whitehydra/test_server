@@ -185,6 +185,11 @@ public class PortfolioServiceImpl implements PortfolioService {
     }
 
 
+    @Override
+    public Set<PortfolioFileEntity> getFilesByPortfolioId(int id){
+        PortfolioEntity portfolio = getPortfolioById(id);
+        return portfolio.getFiles();
+    }
 
 
 
@@ -192,5 +197,23 @@ public class PortfolioServiceImpl implements PortfolioService {
 
 
     @Override
-    public void removePortfolio(int id) { portfolioRepository.deleteById(id); }
+    public void removePortfolio(int id) {
+        try {
+            portfolioRepository.deleteById(id);
+        }
+        catch (Exception e){
+            String qwe = "qwe";
+        }
+    }
+    @Override
+    public void removeFile(PortfolioFileEntity file){
+        try {
+            fileRepository.delete(file);
+        }
+        catch (Exception e){
+            String qwe = "qwe";
+        }
+
+
+    }
 }

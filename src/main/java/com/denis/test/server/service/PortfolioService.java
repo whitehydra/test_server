@@ -31,9 +31,11 @@ public interface PortfolioService {
 
     PortfolioEntity addFileToPortfolio(PortfolioFileEntity file);
     List<PortfolioEntity> getListByUsername(String username);
+    Set<PortfolioFileEntity> getFilesByPortfolioId(int id);
 
 
 
 
     void removePortfolio(int id);
+    void removeFile(PortfolioFileEntity file);
 }

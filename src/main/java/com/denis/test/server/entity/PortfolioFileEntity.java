@@ -1,4 +1,5 @@
 package com.denis.test.server.entity;
+import com.denis.test.server.other.Functions;
 import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.lang.reflect.Field;
@@ -6,6 +7,7 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Entity
 @Table(name = "tr_portfolio_file")
@@ -24,7 +26,12 @@ public class PortfolioFileEntity {
     @Column(name = "file_type", length = 10)
     private String file_type;
 
-    @Column(name = "id_portfolio")
+    //@Column(name = "id_portfolio")
+
+
+
+
+    @Transient
     private int id_portfolio;
 
     @Column(name = "id_massage")
@@ -33,7 +40,7 @@ public class PortfolioFileEntity {
     public PortfolioFileEntity(){}
 
     public PortfolioFileEntity(String file_name, String file_src, String file_type, int id_portfolio){
-        this.file_name = file_name;
+        this.file_name = Functions.transliterate(file_name);
         this.file_src = file_src;
         this.file_type = file_type;
         this.id_portfolio = id_portfolio;
@@ -61,6 +68,8 @@ public class PortfolioFileEntity {
     public void setId_portfolio(int id_portfolio) { this.id_portfolio = id_portfolio; }
     public void setId_massage(int id_massage) { this.id_massage = id_massage; }
 
+
+
     /*GETTERS*/
 
     public int getId_file() { return id_file; }
@@ -69,4 +78,6 @@ public class PortfolioFileEntity {
     public String getFile_type() { return file_type; }
     public int getId_portfolio() { return id_portfolio; }
     public int getId_massage() { return id_massage; }
+
+
 }
