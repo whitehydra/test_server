@@ -25,6 +25,9 @@ public class PortfolioController {
     @Autowired
     private UserService userService;
 
+
+    String test;
+
     private boolean userVerification(List<Map<String,Object>> allParams){
         if (allParams.isEmpty())return false;
         String username = allParams.get(0).get("username").toString();
