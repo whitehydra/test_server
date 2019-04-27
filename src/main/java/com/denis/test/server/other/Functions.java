@@ -13,6 +13,7 @@ import java.security.MessageDigest;
 import java.util.*;
 
 public class Functions {
+    String test;
     public static String generateHash(String input) throws Exception{
         MessageDigest digest = MessageDigest.getInstance("SHA-256");
         byte[] encodedHash = digest.digest(input.getBytes(StandardCharsets.UTF_8));
@@ -55,14 +56,14 @@ public class Functions {
     }
 
     public static String transliterate(String message){
-        char[] abcCyr =   {' ','а','б','в','г','д','е','ё', 'ж','з','и','й','к','л','м','н','о','п','р',
+        char[] abcCyr =   {'а','б','в','г','д','е','ё', 'ж','з','и','й','к','л','м','н','о','п','р',
                 'с','т','у','ф','х', 'ц','ч', 'ш','щ','ъ','ы','ь','э', 'ю','я','А','Б','В','Г','Д','Е',
                 'Ё', 'Ж','З','И','Й','К','Л','М','Н','О','П','Р','С','Т','У','Ф','Х', 'Ц', 'Ч','Ш', 'Щ',
-                'Ъ','Ы','Ь','Э','Ю','Я'};
-        String[] abcLat = {" ","a","b","v","g","d","e","e","zh","z","i","y","k","l","m","n","o","p","r",
+                'Ъ','Ы','Ь','Э','Ю','Я',' '};
+        String[] abcLat = {"a","b","v","g","d","e","e","zh","z","i","y","k","l","m","n","o","p","r",
                 "s","t","u","f","h","ts","ch","sh","sch", "","i", "","e","ju","ja","A","B","V","G","D",
                 "E","E","Zh","Z","I","Y","K","L","M","N","O","P","R","S","T","U","F","H","Ts","Ch","Sh",
-                "Sch", "","I", "","E","Ju","Ja"};
+                "Sch", "","I", "","E","Ju","Ja","_"};
         boolean find = false;
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < message.length(); i++) {
