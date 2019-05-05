@@ -91,7 +91,6 @@ public class UserController {
 
 
 
-
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
     public String login(@RequestBody AuthorizationForm authorizationForm){
@@ -117,6 +116,20 @@ public class UserController {
     }
 
 
+    @RequestMapping(value = "/users/update", method = RequestMethod.GET)
+    @ResponseBody
+    public String updateHash(){
+        List<UserEntity> users = service.getAll();
+        int z = 0;
+        for (UserEntity user : users) {
+            if (user.getPassword().length() <= 32 || user.getAvatar() == null) {
+                service.save(user);
+                z++;
+            }
+        }
+        if(z == 0)return "Пароли пользователей уже захешированы";
+        return "Захешировано паролей - " + z;
+    }
 
 
 

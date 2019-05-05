@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class GetTokenServiceImpl implements GetTokenService {
+
     @Override
     public String getToken(String username, String password, UserService userService){
         if (username == null || password == null)

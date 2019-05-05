@@ -19,14 +19,13 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository repository;
 
+
+
     @Override
     public UserEntity checkAuthorization(AuthorizationForm authorizationForm) {
         UserEntity userEntity = repository.findUsersByUsernameAndPassword(authorizationForm.getUsername(),
                 authorizationForm.getPassword());
         return userEntity;
-
-//        if(userEntity!=null)return true;
-//        else return false;
     }
 
 

@@ -26,8 +26,6 @@ public class PortfolioController {
     private UserService userService;
 
 
-    String test;
-
     private boolean userVerification(List<Map<String,Object>> allParams){
         if (allParams.isEmpty())return false;
         String username = allParams.get(0).get("username").toString();
@@ -41,15 +39,7 @@ public class PortfolioController {
         UserEntity userEntity = userService.findByUsername(username);
         return userEntity.getToken().equals(token);
     }
-
-
-
-
-
-
-
-
-
+    
 
 
     @RequestMapping(value = "/portfolio/{id}", method = RequestMethod.GET)
@@ -83,10 +73,9 @@ public class PortfolioController {
 
 
 
-
     @RequestMapping(value = "/portfolio/files/post", method = RequestMethod.POST)
     @ResponseBody
-    public String postFiles(@RequestBody List<Map<String,Object>> allParams){
+    public String addFiles(@RequestBody List<Map<String,Object>> allParams){
         if(userVerification(allParams)){
             PortfolioFileEntity file = PortfolioFileEntity.CreateObjectFromMap(allParams.get(1));
 
@@ -147,21 +136,14 @@ public class PortfolioController {
 
 
 
-
-
-
     @RequestMapping(value = "/portfolio/list", method = RequestMethod.POST)
     @ResponseBody
     public List<PortfolioEntity> getList(@RequestBody List<Map<String,Object>> allParams){
         if(userVerification(allParams)){
             return portfolioService.getListByUsername(allParams.get(0).get("username").toString());
-       //     return resultSrc;
         }
         return null;
     }
-
-
-
 
 
     @RequestMapping(value = "/portfolio/add", method = RequestMethod.POST)
@@ -170,13 +152,10 @@ public class PortfolioController {
             @RequestBody List<Map<String,Object>> allParams){
 
         if( userVerification(allParams)) {
-      //  if( true) {
             UserEntity author = userService.findByUsername(allParams.get(0).get("username").toString());
             PortfolioCategoryEntity category = portfolioService.getCategoryById((int)allParams.get(1).get("id_category"));
             PortfolioCriterionEntity criterion = portfolioService.getCriterionById((int)allParams.get(1).get("id_criterion"));
             PortfolioTypeEntity type = portfolioService.getTypeById((int)allParams.get(1).get("id_type"));
-
-
             PortfolioEntity portfolioEntity = PortfolioEntity.CreateObjectFromMap(allParams.get(1));
             if(portfolioEntity!=null){
                 portfolioEntity.setAuthor(author);
@@ -185,7 +164,6 @@ public class PortfolioController {
                 portfolioEntity.setType(type);
                 portfolioService.savePortfolio(portfolioEntity);
                 return portfolioEntity.getId_portfolio();
-               // return null;
             }
         } return null;
     }
@@ -243,10 +221,6 @@ public class PortfolioController {
         }
         return null;
     }
-
-
-
-
 
 
 
