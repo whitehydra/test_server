@@ -58,6 +58,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void update(UserEntity userEntity){
+        repository.saveAndFlush(userEntity);
+    }
+
+    @Override
     public UserEntity findByUsername(String username) {
         return repository.findByUsername(username);
     }

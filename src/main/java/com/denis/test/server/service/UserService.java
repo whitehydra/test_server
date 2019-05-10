@@ -10,6 +10,7 @@ public interface UserService {
     List<UserEntity> getAll();
     UserEntity getById(int id);
     UserEntity save(UserEntity firstEntity);
+    void update(UserEntity userEntity);
     UserEntity findByUsername(String username);
     String getToken(UserEntity userEntity);
     void setToken(String username, String token);

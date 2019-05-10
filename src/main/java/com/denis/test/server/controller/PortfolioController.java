@@ -39,7 +39,6 @@ public class PortfolioController {
         UserEntity userEntity = userService.findByUsername(username);
         return userEntity.getToken().equals(token);
     }
-    
 
 
     @RequestMapping(value = "/portfolio/{id}", method = RequestMethod.GET)

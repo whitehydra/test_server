@@ -27,6 +27,7 @@ import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 
@@ -43,6 +44,21 @@ public class UserController {
 
     @Autowired
     ServletContext context;
+
+
+    private boolean userVerification(List<Map<String,Object>> allParams){
+        if (allParams.isEmpty())return false;
+        String username = allParams.get(0).get("username").toString();
+        String token = allParams.get(0).get("token").toString();
+
+        return userVerification(username, token);
+    }
+
+    private boolean userVerification(String username, String token){
+        if(username == null || token == null) return false;
+        UserEntity userEntity = service.findByUsername(username);
+        return userEntity.getToken().equals(token);
+    }
 
 
 
@@ -130,6 +146,47 @@ public class UserController {
         if(z == 0)return "Пароли пользователей уже захешированы";
         return "Захешировано паролей - " + z;
     }
+
+
+
+
+
+    @RequestMapping(value = "/pin/{username}", method = RequestMethod.GET)
+    @ResponseBody
+    public Boolean getPinStatus(@PathVariable("username") String username){
+        UserEntity user = service.findByUsername(username);
+        return user.getPin() == null;
+    }
+
+    @RequestMapping(value = "/pin/check", method = RequestMethod.POST)
+    @ResponseBody
+    public Boolean checkPin(@RequestBody List<Map<String,Object>> allParams){
+        if(userVerification(allParams)){
+            String pinText = allParams.get(1).get("pin").toString();
+            UserEntity user = service.findByUsername(allParams.get(0).get("username").toString());
+            if(user!=null){
+                if(user.getPin().equals(pinText))return true;
+            }
+        }
+        return false;
+    }
+
+    @RequestMapping(value = "/pin/set", method = RequestMethod.POST)
+    @ResponseBody
+    public Boolean setPin(@RequestBody List<Map<String,Object>> allParams){
+        if(userVerification(allParams)){
+            String pinText = allParams.get(1).get("pin").toString();
+            UserEntity user = service.findByUsername(allParams.get(0).get("username").toString());
+            if(user!=null){
+                user.setPin(pinText);
+                service.update(user);
+                return true;
+            }
+        }
+        return false;
+    }
+
+
 
 
 
