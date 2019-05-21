@@ -186,6 +186,39 @@ public class UserController {
         return false;
     }
 
+    @RequestMapping(value = "/edit/profile", method = RequestMethod.POST)
+    @ResponseBody
+    public Boolean editProfile(@RequestBody List<Map<String,Object>> allParams){
+        if(userVerification(allParams)){
+            String phone = allParams.get(1).get("phone").toString();
+            String mail = allParams.get(1).get("mail").toString();
+            String info = allParams.get(1).get("info").toString();
+            UserEntity user = service.findByUsername(allParams.get(0).get("username").toString());
+            user.setPhone(phone);
+            user.setMail(mail);
+            user.setInfo(info);
+            service.update(user);
+            return true;
+        }
+        return false;
+    }
+
+    @RequestMapping(value = "/edit/password", method = RequestMethod.POST)
+    @ResponseBody
+    public Boolean editPassword(@RequestBody List<Map<String,Object>> allParams){
+        if(userVerification(allParams)){
+            String oldPassword = allParams.get(1).get("oldPassword").toString();
+            String newPassword = allParams.get(1).get("newPassword").toString();
+            UserEntity user = service.findByUsername(allParams.get(0).get("username").toString());
+            if(user.getPassword().equals(oldPassword)){
+                user.setPassword(newPassword);
+                service.update(user);
+                return true;
+            }
+
+        }
+        return false;
+    }
 
 
 
