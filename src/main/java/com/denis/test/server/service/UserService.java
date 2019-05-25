@@ -12,6 +12,7 @@ public interface UserService {
     UserEntity save(UserEntity firstEntity);
     void update(UserEntity userEntity);
     UserEntity findByUsername(String username);
+    UserEntity findByAnoutherData(String name, String faculty, String studyGroup);
     String getToken(UserEntity userEntity);
     void setToken(String username, String token);
     void setAvatar(String username, String avatar);

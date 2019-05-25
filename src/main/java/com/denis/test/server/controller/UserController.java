@@ -215,20 +215,20 @@ public class UserController {
                 service.update(user);
                 return true;
             }
-
         }
         return false;
     }
 
 
-
-
-    //Получение списка объектов
-    @RequestMapping(value = "/users", method = RequestMethod.GET)
+    @RequestMapping(value = "/users/get", method = RequestMethod.POST)
     @ResponseBody
-    public List<UserEntity> getAllUsers(){
-       return service.getAll();
+    public List<UserEntity> getAllUsers(@RequestBody List<Map<String,Object>> allParams){
+        if(userVerification(allParams)){
+            return service.getAll();
+        }
+        return null;
     }
+
 
     @RequestMapping(value = "/users/{id}", method = RequestMethod.GET)
     @ResponseBody

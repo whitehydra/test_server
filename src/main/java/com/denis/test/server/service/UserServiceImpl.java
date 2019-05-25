@@ -67,6 +67,11 @@ public class UserServiceImpl implements UserService {
         return repository.findByUsername(username);
     }
 
+    @Override
+    public UserEntity findByAnoutherData(String name, String faculty, String studyGroup){
+        return repository.findByNameAndFacultyAndStudyGroup(name,faculty,studyGroup);
+    }
+
 
 
     @Override

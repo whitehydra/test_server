@@ -144,6 +144,21 @@ public class PortfolioController {
         return null;
     }
 
+    @RequestMapping(value = "/users/portfolio/list", method = RequestMethod.POST)
+    @ResponseBody
+    public List<PortfolioEntity> getListByUser(@RequestBody List<Map<String,Object>> allParams){
+        if(userVerification(allParams)){
+            String name = allParams.get(1).get("name").toString();
+            String faculty = allParams.get(1).get("faculty").toString();
+            String group = allParams.get(1).get("group").toString();
+            UserEntity userEntity = userService.findByAnoutherData(name,faculty,group);
+
+            return portfolioService.getListByUsername(userEntity.getUsername());
+        }
+        return null;
+    }
+
+
 
     @RequestMapping(value = "/portfolio/add", method = RequestMethod.POST)
     @ResponseBody
