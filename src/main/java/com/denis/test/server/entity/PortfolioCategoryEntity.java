@@ -17,8 +17,6 @@ public class PortfolioCategoryEntity {
     @Column(name = "name_category", length = 256)
     private String name_category;
 
-    @Column(name = "sort_category")
-    private int sort_category;
 
     @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
@@ -44,9 +42,8 @@ public class PortfolioCategoryEntity {
 
     public PortfolioCategoryEntity(){}
 
-    public PortfolioCategoryEntity(String name_category, int sort_category){
+    public PortfolioCategoryEntity(String name_category){
         this.name_category = name_category;
-        this.sort_category = sort_category;
     }
 
 
@@ -54,7 +51,6 @@ public class PortfolioCategoryEntity {
 
     public void setCategoryID(int categoryID) { this.categoryID = categoryID; }
     public void setName_category(String name_category) { this.name_category = name_category; }
-    public void setSort_category(int sort_category) { this.sort_category = sort_category; }
     public void setCriteria(List<PortfolioCriterionEntity> criteria) { this.criteria = criteria; }
     public void setTypes(List<PortfolioTypeEntity> types) { this.types = types; }
 
@@ -63,7 +59,6 @@ public class PortfolioCategoryEntity {
 
     public int getCategoryID() { return categoryID; }
     public String getName_category() { return name_category; }
-    public int getSort_category() { return sort_category; }
     public List<PortfolioCriterionEntity> getCriteria() { return criteria; }
     public List<PortfolioTypeEntity> getTypes() { return types; }
 }

@@ -1,4 +1,6 @@
 package com.denis.test.server.controller;
+import com.denis.test.server.entity.FacultyEntity;
+import com.denis.test.server.entity.GroupEntity;
 import com.denis.test.server.entity.UserEntity;
 import com.denis.test.server.forms.AuthorizationForm;
 import com.denis.test.server.forms.TokenAndNameForm;
@@ -132,6 +134,22 @@ public class UserController {
     }
 
 
+
+    @RequestMapping(value = "/faculties", method = RequestMethod.GET)
+    @ResponseBody
+    public List<FacultyEntity> getFaculties(){
+        return Functions.removeDublicates(service.getFacultiesList());}
+
+    @RequestMapping(value = "/groups/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public List<GroupEntity> getGroups(@PathVariable("id") int id){
+        if(id == -1)return Functions.removeDublicates(service.getGroupsList());
+        return Functions.removeDublicates(service.getGroupListByFacultyId(id));
+    }
+
+
+
+
     @RequestMapping(value = "/users/update", method = RequestMethod.GET)
     @ResponseBody
     public String updateHash(){
@@ -236,11 +254,28 @@ public class UserController {
         return service.getById(userID);
     }
 
+
+
+
     @RequestMapping(value = "/users", method = RequestMethod.POST)
     @ResponseBody
-    public UserEntity addUser(@RequestBody UserEntity userEntity){
-        return service.save(userEntity);
+    public UserEntity addUser(@RequestBody List<Map<String,Object>> allParams){
+        FacultyEntity faculty = service.getFacultyById((int)allParams.get(0).get("id_faculty"));
+        GroupEntity group = service.getGroupById((int)allParams.get(0).get("id_group"));
+        UserEntity userEntity = UserEntity.CreateObjectFromMap(allParams.get(0));
+        if(userEntity!=null){
+            userEntity.setFaculty(faculty);
+            userEntity.setGroup(group);
+            service.save(userEntity);
+            return userEntity;
+        }
+        return  null;
     }
+
+
+
+
+
 
     @RequestMapping(value = "/users/{id}", method = RequestMethod.POST)
     @ResponseBody

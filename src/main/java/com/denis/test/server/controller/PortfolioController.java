@@ -62,7 +62,7 @@ public class PortfolioController {
 
     @RequestMapping(value = "/criteria/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public List<PortfolioCriterionEntity> getCriteions(@PathVariable("id") int id){
+    public List<PortfolioCriterionEntity> getCriteria(@PathVariable("id") int id){
         return Functions.removeDublicates(portfolioService.getCriteriaListByCategoryId(id));}
 
     @RequestMapping(value = "/types/{id}", method = RequestMethod.GET)
@@ -151,7 +151,7 @@ public class PortfolioController {
             String name = allParams.get(1).get("name").toString();
             String faculty = allParams.get(1).get("faculty").toString();
             String group = allParams.get(1).get("group").toString();
-            UserEntity userEntity = userService.findByAnoutherData(name,faculty,group);
+            UserEntity userEntity = userService.findByAnotherData(name,faculty,group);
 
             return portfolioService.getListByUsername(userEntity.getUsername());
         }
@@ -245,18 +245,20 @@ public class PortfolioController {
     @ResponseBody
     public String initData(){
 
-        UserEntity userEntity = new UserEntity();
-        userEntity.setUsername("admin");
-        userEntity.setName("Фадеев Денис");
-        userEntity.setPassword("admin");
-        userEntity.setLevel("Студент");
-        userEntity.setFaculty("ФИТ");
-        userEntity.setStudyGroup("15ИВТ-1");
-        userEntity.setPhone("+79529616552");
-        userEntity.setMail("whitehydra@yandex.ru");
-        userEntity.setInfo("Пробная страница");
-        userService.save(userEntity);
+        FacultyEntity fc1, fc2;
+        GroupEntity gr1, gr2, gr3;
 
+        fc1 = new FacultyEntity("ФИТ","Факультет информационных технологий");
+        fc2 = new FacultyEntity("ФИМ","Факультет мемов");
+        gr1 = new GroupEntity("15ИВТ-1","15 Информатика и вычислительная техника - 1");
+        gr2 = new GroupEntity("15ИВТ-2","15 Информатика и вычислительная техника - 2");
+        gr3 = new GroupEntity("15МЕМ","15 Мемология");
+
+        userService.saveFaculties(Arrays.asList(fc1,fc2));
+        userService.saveGroups(Arrays.asList(gr1,gr2,gr3));
+
+        userService.addGroups(fc1,Arrays.asList(gr1,gr2));
+        userService.addGroups(fc2,Arrays.asList(gr3));
 
 
         PortfolioCategoryEntity ca1, ca2, ca3, ca4, ca5, ca6, ca7;
@@ -264,52 +266,52 @@ public class PortfolioController {
         PortfolioTypeEntity tp1, tp2, tp3;
 
 
-        ca1 = new PortfolioCategoryEntity("Научно-исследовательская деятельность",1);
-        ca2 = new PortfolioCategoryEntity("Учебная деятельность",1);
-        ca3 = new PortfolioCategoryEntity("Общественная деятельность",1);
-        ca4 = new PortfolioCategoryEntity("Культурно-творческая деятельность",1);
-        ca5 = new PortfolioCategoryEntity("Спортивная деятельность",1);
-        ca6 = new PortfolioCategoryEntity("Курсовая работа (проект)",1);
-        ca7 = new PortfolioCategoryEntity("Дипломная работа (проект)",1);
+        ca1 = new PortfolioCategoryEntity("Научно-исследовательская деятельность");
+        ca2 = new PortfolioCategoryEntity("Учебная деятельность");
+        ca3 = new PortfolioCategoryEntity("Общественная деятельность");
+        ca4 = new PortfolioCategoryEntity("Культурно-творческая деятельность");
+        ca5 = new PortfolioCategoryEntity("Спортивная деятельность");
+        ca6 = new PortfolioCategoryEntity("Курсовая работа (проект)");
+        ca7 = new PortfolioCategoryEntity("Дипломная работа (проект)");
 
 
         cr1 = new PortfolioCriterionEntity("получение студентом в течение года, предшествующего назначению " +
-                "повышенной государственной академической стипендии",1);
+                "повышенной государственной академической стипендии");
         cr2 = new PortfolioCriterionEntity("наличие у студента публикации в научном (учебно-научном, " +
-                "учебно-методическом) издании ",1);
+                "учебно-методическом) издании ");
         cr3 = new PortfolioCriterionEntity("получение студентом в течение не менее 2-х следующих друг за " +
-                "другом промежуточных аттестаций, только оценок \"отлично\"",1);
+                "другом промежуточных аттестаций, только оценок \"отлично\"");
         cr4 = new PortfolioCriterionEntity("получение студентом в течение года награды (приза) за " +
-                "результаты проектной деятельности и (или) опытно-конструкторской работы",1);
+                "результаты проектной деятельности и (или) опытно-конструкторской работы");
         cr5 = new PortfolioCriterionEntity("признание студента победителем или призером международной, " +
-                "всероссийской, ведомственной или региональной олимпиады, конкурса, соревнования, состязания",1);
+                "всероссийской, ведомственной или региональной олимпиады, конкурса, соревнования, состязания");
         cr6 = new PortfolioCriterionEntity("систематическое участие студента в течение года в проведении " +
                 "(обеспечении проведения) общественно значимой деятельности социального, культурного, правозащитного, " +
-                "общественно полезного характера",1);
+                "общественно полезного характера");
         cr7 = new PortfolioCriterionEntity("систематическое участие студента в течение года в деятельности " +
                 "по информационному обеспечению общественно значимых мероприятий, общественной жизни государственной " +
-                "образовательной организации",1);
+                "образовательной организации");
         cr8 = new PortfolioCriterionEntity("получение студентом в течение года награды (приза) за " +
-                "результаты культурно-творческой деятельности",1);
+                "результаты культурно-творческой деятельности");
         cr9 = new PortfolioCriterionEntity("публичное представление студентом в течение года созданного " +
-                "им произведения литературы или искусства",1);
+                "им произведения литературы или искусства");
         cr10 = new PortfolioCriterionEntity("систематическое участие студента в течение года в проведении " +
                 "(обеспечении проведения) публичной культурно-творческой деятельности воспитательного " +
-                "характера",1);
+                "характера");
         cr11 = new PortfolioCriterionEntity("получение студентом в течение года награды (приза) за " +
-                "результаты спортивной деятельности, осуществленной им в рамках спортивных  мероприятий",1);
+                "результаты спортивной деятельности, осуществленной им в рамках спортивных  мероприятий");
         cr12 = new PortfolioCriterionEntity("систематическое участие студента в течение года в спортивных " +
-                "мероприятиях воспитательного, пропагандистского характера",1);
+                "мероприятиях воспитательного, пропагандистского характера");
         cr13 = new PortfolioCriterionEntity("выполнение нормативов и требований золотого знака отличия " +
-                "\"Всероссийского физкультурно-спортивного комплекса (ГТО) соответствующей возрастной группы",1);
-        cr14 = new PortfolioCriterionEntity("Сдано на \"Отлично\"",1);
-        cr15 = new PortfolioCriterionEntity("Сдано на \"Хорошо\"",1);
-        cr16 = new PortfolioCriterionEntity("Сдано на \"Удовлетворительно\"",1);
+                "\"Всероссийского физкультурно-спортивного комплекса (ГТО) соответствующей возрастной группы");
+        cr14 = new PortfolioCriterionEntity("Сдано на \"Отлично\"");
+        cr15 = new PortfolioCriterionEntity("Сдано на \"Хорошо\"");
+        cr16 = new PortfolioCriterionEntity("Сдано на \"Удовлетворительно\"");
 
 
-        tp1 = new PortfolioTypeEntity("Организатор",1);
-        tp2 = new PortfolioTypeEntity("Участник",1);
-        tp3 = new PortfolioTypeEntity("Автор",1);
+        tp1 = new PortfolioTypeEntity("Организатор");
+        tp2 = new PortfolioTypeEntity("Участник");
+        tp3 = new PortfolioTypeEntity("Автор");
 
 
         portfolioService.saveCategories(Arrays.asList(ca1,ca2,ca3,ca4,ca5,ca6,ca7));
@@ -333,6 +335,26 @@ public class PortfolioController {
         portfolioService.addTypes(ca5, Arrays.asList(tp1,tp2));
         portfolioService.addTypes(ca6, Arrays.asList(tp3));
         portfolioService.addTypes(ca7, Arrays.asList(tp3));
+
+
+
+
+        UserEntity userEntity = new UserEntity();
+        userEntity.setUsername("admin");
+        userEntity.setName("Фадеев Денис");
+        userEntity.setPassword("admin");
+        userEntity.setLevel("Студент");
+        userEntity.setFaculty(userService.getFacultyById(1));
+        userEntity.setGroup(userService.getGroupById(1));
+        userEntity.setPhone("+79529616552");
+        userEntity.setMail("whitehydra@yandex.ru");
+        userEntity.setInfo("Пробная страница");
+        userService.save(userEntity);
+
+
+
+
+
 
 
 

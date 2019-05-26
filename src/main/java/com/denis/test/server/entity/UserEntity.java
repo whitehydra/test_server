@@ -3,6 +3,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
+import java.util.Map;
 import java.util.Set;
 
 @Entity
@@ -28,11 +29,15 @@ public class UserEntity {
     @Column(name = "level")
     private String level;
 
-    @Column(name = "faculty")
-    private String faculty;
 
-    @Column(name = "studyGroup")
-    private String studyGroup;
+    @ManyToOne(fetch =  FetchType.EAGER)
+    @JoinColumn(name = "id_faculty")
+    private FacultyEntity faculty;
+
+    @ManyToOne(fetch =  FetchType.EAGER)
+    @JoinColumn(name = "id_group")
+    private GroupEntity group;
+
 
     @Column(name = "phone")
     private String phone;
@@ -55,13 +60,32 @@ public class UserEntity {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private String avatar;
 
-//    @OneToMany
-//    @JoinColumn(name = "id_portfolio")
-//    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-//    private Set<PortfolioEntity> portfolio;
-
 
     public UserEntity(){ }
+
+
+    public UserEntity(String username, String name, String password, String level){
+        this.username = username;
+        this.name = name;
+        this.password = password;
+        this.level = level;
+    }
+
+    public static UserEntity CreateObjectFromMap (Map<String, Object> obj){
+        if(obj.get("username")!=null&&obj.get("name")!=null&&obj.get("password")!=null&&
+                obj.get("level")!=null&&obj.get("id_faculty")!=null&&obj.get("id_group")!=null)
+        {
+            return new UserEntity(obj.get("username").toString(),obj.get("name").toString(),
+                    obj.get("password").toString(),obj.get("level").toString());
+        }
+        return null;
+    }
+
+
+
+
+
+
 
     /*SETTERS*/
 
@@ -72,8 +96,8 @@ public class UserEntity {
     public void setName(String name) {this.name = name; }
     public void setPassword(String password) { this.password = password; }
     public void setLevel(String level) { this.level = level; }
-    public void setFaculty(String faculty) {this.faculty = faculty; }
-    public void setStudyGroup(String studyGroup) {this.studyGroup = studyGroup; }
+    public void setFaculty(FacultyEntity faculty) { this.faculty = faculty; }
+    public void setGroup(GroupEntity group) { this.group = group; }
     public void setPhone(String phone) { this.phone = phone; }
     public void setMail(String mail) { this.mail = mail; }
     public void setInfo(String info) { this.info = info; }
@@ -91,8 +115,8 @@ public class UserEntity {
     public String getName() {return name; }
     public String getPassword() { return password; }
     public String getLevel() { return level; }
-    public String getFaculty() {return faculty; }
-    public String getStudyGroup() { return studyGroup; }
+    public FacultyEntity getFaculty() { return faculty; }
+    public GroupEntity getGroup() { return group; }
     public String getPhone() { return phone; }
     public String getMail() {return mail; }
     public String getInfo() {return info; }
