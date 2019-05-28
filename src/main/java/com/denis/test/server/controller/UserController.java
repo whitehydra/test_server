@@ -64,11 +64,10 @@ public class UserController {
 
 
 
-    @RequestMapping(value = "/avatars/{username:.+}", method = RequestMethod.GET)
+    @RequestMapping(value = "/avatars/{avatar:.+}", method = RequestMethod.GET)
     public void getAvatar(HttpServletResponse response,
-                                    @PathVariable("username") String username) throws IOException {
-        UserEntity userEntity = service.findByUsername(username);
-        File file = new File(Constants.URL.UPLOADS + userEntity.getAvatar());
+                                    @PathVariable("avatar") String avatar) throws IOException {
+        File file = new File(Constants.URL.UPLOADS + avatar);
         InputStream in = new FileInputStream(file);
         response.setContentType(MediaType.IMAGE_JPEG_VALUE);
         IOUtils.copy(in, response.getOutputStream());

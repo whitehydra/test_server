@@ -245,20 +245,50 @@ public class PortfolioController {
     @ResponseBody
     public String initData(){
 
-        FacultyEntity fc1, fc2;
-        GroupEntity gr1, gr2, gr3;
+        FacultyEntity fc1, fc2, fc3;
+        GroupEntity gr1, gr2, gr3, gr4, gr5, gr6, gr7, gr8, gr9, gr10, gr11, gr12, gr13, gr14, gr15, gr16, gr17, gr18,
+                gr19, gr20, gr21, gr22;
 
         fc1 = new FacultyEntity("ФИТ","Факультет информационных технологий");
-        fc2 = new FacultyEntity("ФИМ","Факультет мемов");
-        gr1 = new GroupEntity("15ИВТ-1","15 Информатика и вычислительная техника - 1");
-        gr2 = new GroupEntity("15ИВТ-2","15 Информатика и вычислительная техника - 2");
-        gr3 = new GroupEntity("15МЕМ","15 Мемология");
+        fc2 = new FacultyEntity("МТФ","Механико-технологический факультет");
+        fc3 = new FacultyEntity("ФЭЭ","Факультет энергетики и электроники");
 
-        userService.saveFaculties(Arrays.asList(fc1,fc2));
-        userService.saveGroups(Arrays.asList(gr1,gr2,gr3));
 
-        userService.addGroups(fc1,Arrays.asList(gr1,gr2));
-        userService.addGroups(fc2,Arrays.asList(gr3));
+        gr1 = new GroupEntity("15-ИБ","15 ИБ");
+        gr2 = new GroupEntity("15-ИВТ1","15 Информатика и вычислительная техника - 1");
+        gr3 = new GroupEntity("15-ИВТ2","15 Информатика и вычислительная техника - 2");
+        gr4 = new GroupEntity("15-ИВТ3","15-ИВТ3");
+        gr5 = new GroupEntity("15-ИНН","15-ИНН");
+        gr6 = new GroupEntity("15-ИСТ1","15-ИСТ1");
+        gr7 = new GroupEntity("15-ИСТ2","15-ИСТ2");
+        gr8 = new GroupEntity("15-МОА","15-МОА");
+        gr9 = new GroupEntity("15-ПРИ","15-ПРИ");
+
+
+        gr10 = new GroupEntity("15-МАШ1","15-МАШ1");
+        gr11 = new GroupEntity("15-МАШ2","15-МАШ2");
+        gr12 = new GroupEntity("15-СИМ","15-СИМ");
+        gr13 = new GroupEntity("15-ТБ","15-ТБ");
+        gr14 = new GroupEntity("15-УК","15-УК");
+
+
+        gr15 = new GroupEntity("15-РАД","15-РАД");
+        gr16 = new GroupEntity("15-ТиТ","15-ТиТ");
+        gr17 = new GroupEntity("15-ЭиН1","15-ЭиН1");
+        gr18 = new GroupEntity("15-ЭиН2","15-ЭиН2");
+        gr19 = new GroupEntity("15-ЭиЭ","15-ЭиЭ");
+        gr20 = new GroupEntity("15-ЭМ1","15-ЭМ1");
+        gr21 = new GroupEntity("15-ЭМ2","15-ЭМ2");
+        gr22 = new GroupEntity("15-ЭМД","15-ЭМД");
+
+
+
+        userService.saveFaculties(Arrays.asList(fc1,fc2,fc3));
+        userService.saveGroups(Arrays.asList(gr1,gr2,gr3,gr4,gr5,gr6,gr7,gr8,gr9,gr10,gr11,gr12,gr13,gr14,gr15,gr16,gr17,gr18,gr19,gr20,gr21,gr22));
+
+        userService.addGroups(fc1,Arrays.asList(gr1,gr2,gr3,gr4,gr5,gr6,gr7,gr8,gr9));
+        userService.addGroups(fc2,Arrays.asList(gr10,gr11,gr12,gr13,gr14));
+        userService.addGroups(fc3,Arrays.asList(gr15,gr16,gr17,gr18,gr19,gr20,gr21,gr22));
 
 
         PortfolioCategoryEntity ca1, ca2, ca3, ca4, ca5, ca6, ca7;
@@ -345,7 +375,7 @@ public class PortfolioController {
         userEntity.setPassword("admin");
         userEntity.setLevel("Студент");
         userEntity.setFaculty(userService.getFacultyById(1));
-        userEntity.setGroup(userService.getGroupById(1));
+        userEntity.setGroup(userService.getGroupById(2));
         userEntity.setPhone("+79529616552");
         userEntity.setMail("whitehydra@yandex.ru");
         userEntity.setInfo("Пробная страница");
