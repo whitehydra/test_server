@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>${javax.servlet-api.version}</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.denis.test.server</groupId>
     <artifactId>com.denis.test.server</artifactId>
@@ -15,6 +15,16 @@
                 <configuration>
                     <source>8</source>
                     <target>8</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.6</version>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
             </plugin>
         </plugins>
@@ -32,6 +42,7 @@
     </properties>
 
     <packaging>war</packaging>
+
     <dependencies>
         <!-- SPRING CORE -->
         <dependency>

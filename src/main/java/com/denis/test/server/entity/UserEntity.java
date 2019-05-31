@@ -10,8 +10,8 @@ import java.util.Set;
 @Table(name = "tr_user")
 public class UserEntity {
     @Id
-    @GeneratedValue(generator = "increment")
-    @GenericGenerator(name = "increment",strategy = "increment")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(columnDefinition = "serial")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private int id_usr;
 

@@ -67,7 +67,7 @@ public class UserController {
     @RequestMapping(value = "/avatars/{avatar:.+}", method = RequestMethod.GET)
     public void getAvatar(HttpServletResponse response,
                                     @PathVariable("avatar") String avatar) throws IOException {
-        File file = new File(Constants.URL.UPLOADS + avatar);
+        File file = new File(Constants.URL.UPLOADS_AVATARS + avatar);
         InputStream in = new FileInputStream(file);
         response.setContentType(MediaType.IMAGE_JPEG_VALUE);
         IOUtils.copy(in, response.getOutputStream());
@@ -81,7 +81,7 @@ public class UserController {
         if (file!=null){
             UserEntity userEntity = service.findByUsername(username);
             if (userEntity.getToken().equals(token)){
-                File uploadDir = new File(Constants.URL.UPLOADS);
+                File uploadDir = new File(Constants.URL.UPLOADS_AVATARS);
                 if(!uploadDir.exists()){
                     uploadDir.mkdir();
                 }
@@ -89,10 +89,8 @@ public class UserController {
                 String uuidFile = username + "_" + UUID.randomUUID().toString();
                 String resultFilename = uuidFile + "." + file.getOriginalFilename();
                 try {
-                    file.transferTo(new File(Constants.URL.UPLOADS + resultFilename));
 
-                 //   File fileToDelete = new File(Constants.URL.UPLOADS + userEntity.getAvatar());
-                  //  fileToDelete.delete();
+                    file.transferTo(new File(Constants.URL.UPLOADS_AVATARS + resultFilename));
 
                     service.setAvatar(username,resultFilename);
                     return "Done " + resultFilename;
