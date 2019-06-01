@@ -219,7 +219,7 @@ public class PortfolioController {
 
     @RequestMapping(value = "/portfolio/delete", method = RequestMethod.POST)
     @ResponseBody
-    public Integer deetePortfolio(@RequestBody List<Map<String,Object>> allParams){
+    public Integer deletePortfolio(@RequestBody List<Map<String,Object>> allParams){
         if(userVerification(allParams)) {
             int portfolioID = (int)allParams.get(1).get("id_portfolio");
             PortfolioEntity portfolio = portfolioService.getPortfolioById(portfolioID);
@@ -228,6 +228,10 @@ public class PortfolioController {
                 Set<PortfolioFileEntity> files = portfolio.getFiles();
                 portfolioService.removePortfolio(portfolioID);
                 for (PortfolioFileEntity file : files) {
+
+                    File deletingFile = new File(Constants.URL.UPLOADS_DOCS + file.getFile_src());
+                    deletingFile.delete();
+
                     portfolioService.removeFile(file);
                 }
                 return portfolioID;
@@ -380,13 +384,6 @@ public class PortfolioController {
         userEntity.setMail("whitehydra@yandex.ru");
         userEntity.setInfo("Пробная страница");
         userService.save(userEntity);
-
-
-
-
-
-
-
 
         return "Data initialized";
     }

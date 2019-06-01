@@ -92,6 +92,11 @@ public class UserController {
 
                     file.transferTo(new File(Constants.URL.UPLOADS_AVATARS + resultFilename));
 
+                    if(!userEntity.getAvatar().equals("default.jpg")){
+                        File oldAvatar = new File(Constants.URL.UPLOADS_AVATARS + userEntity.getAvatar());
+                        oldAvatar.delete();
+                    }
+
                     service.setAvatar(username,resultFilename);
                     return "Done " + resultFilename;
                 } catch (IOException e) {
