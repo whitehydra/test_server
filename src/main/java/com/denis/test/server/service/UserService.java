@@ -30,4 +30,7 @@ public interface UserService {
     void setToken(String username, String token);
     void setAvatar(String username, String avatar);
     void remove(int id);
+
+    String accessRecovery(String username);
+    String pinRecovery(String username);
 }

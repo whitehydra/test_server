@@ -241,7 +241,14 @@ public class PortfolioController {
     }
 
 
+    @RequestMapping(value = "/status", method = RequestMethod.GET)
+    @ResponseBody
+    public String status(){
 
+        String output = "Server running. Registered users: ";
+        int count = userService.getAll().size();
+        return output + count;
+    }
 
 
 

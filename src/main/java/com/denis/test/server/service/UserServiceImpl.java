@@ -28,6 +28,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private GroupRepository groupRepository;
 
+    @Autowired
+    private MailSender mailSender;
+
 
 
 
@@ -183,9 +186,55 @@ public class UserServiceImpl implements UserService {
         userRepository.save(userEntity);
     }
 
-
     @Override
     public void remove(int id) {
         userRepository.deleteById(id);
+    }
+
+
+    @Override
+    public String accessRecovery(String username){
+        String subject = "Восстановление доступа";
+        String message = "Пароль доступа был сброшен. Новый пароль: ";
+        UserEntity userEntity = userRepository.findByUsername(username);
+
+        if(userEntity!=null){
+            String mail = userEntity.getMail();
+            if((mail != null) && (!mail.equals(""))){
+                String newPass = Functions.randomPassword(8);
+                String hashPass = "";
+                try {
+                    hashPass = Functions.generateHash(newPass);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                userEntity.setPassword(hashPass);
+                userRepository.saveAndFlush(userEntity);
+
+
+                mailSender.send(userEntity.getMail(), subject, message + newPass);
+                return "Письмо отправлено";
+
+            }
+            else return  "Почта не указана";
+        }
+        else return "Пользователь не найден";
+    }
+
+    @Override
+    public String pinRecovery(String username){
+        String subject = "Восстановление PIN-кода";
+        String message = "Ваш PIN-код: ";
+        UserEntity userEntity = userRepository.findByUsername(username);
+
+        if(userEntity!=null){
+            String pin = userEntity.getPin();
+            if((pin != null) && (!pin.equals(""))){
+                mailSender.send(userEntity.getMail(), subject, message + userEntity.getPin());
+                return "Письмо отправлено";
+            }
+            else return  "Почта не указана";
+        }
+        else return "Пользователь не найден";
     }
 }

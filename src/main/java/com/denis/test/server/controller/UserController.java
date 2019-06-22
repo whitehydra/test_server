@@ -74,6 +74,21 @@ public class UserController {
     }
 
 
+
+    @RequestMapping(value = "/recovery/{username}", method = RequestMethod.GET)
+    public String accessRecovery(@PathVariable("username") String username){
+        String result = service.accessRecovery(username);
+        return result;
+    }
+
+
+    @RequestMapping(value = "recovery-pin/{username}", method = RequestMethod.GET)
+    public String pinRecovery(@PathVariable("username") String username){
+        String result = service.pinRecovery(username);
+        return result;
+    }
+
+
     @RequestMapping(value = "/file", method = RequestMethod.POST)
     public String fileUpload(@RequestParam String username,
                           @RequestParam String token, @RequestParam("file") MultipartFile file) {
