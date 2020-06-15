@@ -30,7 +30,7 @@
         </plugins>
     </build>
     <properties>
-        <spring-core.version>5.1.4.RELEASE</spring-core.version>
+        <spring-core.version>5.3.3.RELEASE</spring-core.version>
         <spring-webmvc.version>${spring-core.version}</spring-webmvc.version>
         <javax.servlet-api.version>4.0.0</javax.servlet-api.version>
         <spring-data-jpa.version>2.1.2.RELEASE</spring-data-jpa.version>
