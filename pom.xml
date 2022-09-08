@@ -35,7 +35,7 @@
         <javax.servlet-api.version>4.0.0</javax.servlet-api.version>
         <spring-data-jpa.version>2.1.2.RELEASE</spring-data-jpa.version>
         <hibernate-entitymanager.version>5.0.2.Final</hibernate-entitymanager.version>
-        <postgresql.version>42.1.4</postgresql.version>
+        <postgresql.version>42.4.1</postgresql.version>
         <commons-dbcp2.version>2.${jta.version}</commons-dbcp2.version>
         <jackson-databind.version>2.9.4</jackson-databind.version>
         <jta.version>1.1</jta.version>
